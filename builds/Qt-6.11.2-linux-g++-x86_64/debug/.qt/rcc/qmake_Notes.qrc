@@ -1,0 +1,6 @@
+<RCC>
+  <qresource prefix="/qt/qml/Notes">
+    <file alias="qmldir">/home/mpn/Documents/notes/builds/Qt-6.11.2-linux-g++-x86_64/debug/Notes/qmldir</file>
+  </qresource>
+</RCC>
+

@@ -1,0 +1,6 @@
+--resource
+/home/mpn/Documents/notes/builds/Qt-6.11.2-linux-g++-x86_64/debug/.qt/rcc/qmake_Notes.qrc
+--resource
+/home/mpn/Documents/notes/builds/Qt-6.11.2-linux-g++-x86_64/debug/.qt/rcc/qtnotes_raw_qml_0.qrc
+/qt/qml/Notes/Main.qml
+/qt/qml/Notes/NoteListDelegate.qml

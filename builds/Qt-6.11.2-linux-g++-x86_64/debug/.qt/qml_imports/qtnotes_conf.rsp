@@ -1,0 +1,14 @@
+-rootPath
+/home/mpn/Documents/notes
+-cmake-output
+-output-file
+/home/mpn/Documents/notes/builds/Qt-6.11.2-linux-g++-x86_64/debug/.qt/qml_imports/qtnotes_conf.cmake
+-importPath
+/home/mpn/Documents/notes/builds/Qt-6.11.2-linux-g++-x86_64/debug
+-importPath
+/home/mpn/Documents/notes/builds/Qt-6.11.2-linux-g++-x86_64/debug/Notes
+-importPath
+/home/mpn/Qt6/6.11.2/gcc_64/qml
+-qrcFiles
+/home/mpn/Documents/notes/builds/Qt-6.11.2-linux-g++-x86_64/debug/.qt/rcc/qmake_Notes.qrc
+/home/mpn/Documents/notes/builds/Qt-6.11.2-linux-g++-x86_64/debug/.qt/rcc/qtnotes_raw_qml_0.qrc

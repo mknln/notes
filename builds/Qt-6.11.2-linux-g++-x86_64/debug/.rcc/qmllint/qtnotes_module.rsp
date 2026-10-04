@@ -1,0 +1,14 @@
+-I
+/home/mpn/Documents/notes/builds/Qt-6.11.2-linux-g++-x86_64/debug
+-I
+/home/mpn/Documents/notes/builds/Qt-6.11.2-linux-g++-x86_64/debug/Notes
+-I
+/home/mpn/Documents/notes/builds/Qt-6.11.2-linux-g++-x86_64/debug
+-I
+/home/mpn/Qt6/6.11.2/gcc_64/qml
+--resource
+/home/mpn/Documents/notes/builds/Qt-6.11.2-linux-g++-x86_64/debug/.qt/rcc/qmake_Notes.qrc
+--resource
+/home/mpn/Documents/notes/builds/Qt-6.11.2-linux-g++-x86_64/debug/.qt/rcc/qtnotes_raw_qml_0.qrc
+--module
+Notes
