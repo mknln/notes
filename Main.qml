@@ -42,6 +42,9 @@ ApplicationWindow {
     function loadNote() {
         loadingNote = true
         editor.text = notesModel.text(currentId)
+        // Otherwise the format at the cursor in the previous note (e.g. a
+        // heading) carries over into this one.
+        formatter.resetTypingFormat()
         loadingNote = false
     }
 
@@ -263,8 +266,50 @@ ApplicationWindow {
             }
 
             ScrollView {
+                id: editorScroll
                 Layout.fillWidth: true
                 Layout.fillHeight: true
+                // The style's scroll bar only shows while scrolling, and is
+                // too faint to see on white, so this one is always shown when
+                // the note overflows and has a visible track.
+                ScrollBar.vertical: ScrollBar {
+                    id: editorScrollBar
+                    parent: editorScroll
+                    x: editorScroll.mirrored ? 0 : editorScroll.width - width
+                    y: editorScroll.topPadding
+                    height: editorScroll.availableHeight
+                    policy: editor.height > editorScroll.availableHeight ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
+                    padding: 2
+
+                    contentItem: Rectangle {
+                        implicitWidth: 8
+                        radius: width / 2
+                        color: editorScrollBar.pressed ? editorScrollBar.palette.shadow
+                             : editorScrollBar.hovered ? Qt.darker(editorScrollBar.palette.dark, 1.2)
+                             : editorScrollBar.palette.dark
+                    }
+                    background: Rectangle {
+                        color: editorScrollBar.palette.window
+                        border.color: editorScrollBar.palette.mid
+                        border.width: 1
+                    }
+                }
+
+                // TextEdit doesn't handle Page Up/Down, since it doesn't know
+                // the size of the view. Scrolls a page and moves the cursor
+                // with it, keeping its place on screen.
+                function page(direction, select) {
+                    const flickable = contentItem
+                    const distance = direction * availableHeight
+                    const maxY = Math.max(0, flickable.contentHeight - flickable.height)
+                    const rect = editor.cursorRectangle
+                    const position = editor.positionAt(rect.x, rect.y + rect.height / 2 + distance)
+                    flickable.contentY = Math.max(0, Math.min(maxY, flickable.contentY + distance))
+                    if (select)
+                        editor.moveCursorSelection(position, TextEdit.SelectCharacters)
+                    else
+                        editor.cursorPosition = position
+                }
 
                 TextArea {
                     id: editor
@@ -277,6 +322,13 @@ ApplicationWindow {
                     onTextChanged: if (window.currentId && !window.loadingNote) notesModel.setText(window.currentId, text)
                     Keys.onReturnPressed: event => event.accepted = formatter.handleReturn()
                     Keys.onEnterPressed: event => event.accepted = formatter.handleReturn()
+                    Keys.onPressed: event => {
+                        if (event.key !== Qt.Key_PageUp && event.key !== Qt.Key_PageDown)
+                            return
+                        editorScroll.page(event.key === Qt.Key_PageUp ? -1 : 1,
+                                          event.modifiers & Qt.ShiftModifier)
+                        event.accepted = true
+                    }
                 }
             }
         }

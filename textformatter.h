@@ -13,6 +13,8 @@
 //
 // Toggling bold or italic with nothing selected applies to the next character
 // typed at the cursor; text typed after it then inherits the format as usual.
+// This is done by setting the format of the typed character, rather than the
+// format the editor types with, which isn't accessible.
 class TextFormatter : public QObject
 {
     Q_OBJECT
@@ -61,6 +63,11 @@ public:
     // text rather than another heading.
     Q_INVOKABLE bool handleReturn();
 
+    // Call after replacing the editor's text. The editor keeps typing with the
+    // format it had at the cursor in the old text; this makes the next
+    // character typed use the new text's format at the cursor instead.
+    Q_INVOKABLE void resetTypingFormat();
+
 signals:
     void documentChanged();
     void selectionChanged();
@@ -76,8 +83,9 @@ private:
     QPointer<QQuickTextDocument> m_document;
     int m_selectionStart = 0;
     int m_selectionEnd = 0;
-    // Format toggled with an empty selection, waiting for text to be typed at
-    // m_pendingPosition. Cleared when the cursor moves elsewhere.
+    // Format for the next text typed at m_pendingPosition, set by toggling
+    // bold or italic with an empty selection or by resetTypingFormat().
+    // Cleared when the cursor moves elsewhere.
     QTextCharFormat m_pendingFormat;
     int m_pendingPosition = -1;
 };

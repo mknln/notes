@@ -29,7 +29,6 @@ ItemDelegate {
         Label {
             Layout.fillWidth: true
             text: root.title
-            font.bold: true
             elide: Text.ElideRight
         }
         RowLayout {

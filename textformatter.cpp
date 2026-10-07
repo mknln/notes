@@ -207,6 +207,18 @@ bool TextFormatter::handleReturn()
     return false;
 }
 
+void TextFormatter::resetTypingFormat()
+{
+    const QTextCursor c = cursor();
+    if (c.isNull())
+        return;
+    // For a cursor with no selection, this is the format of the character
+    // before it, or after it at the start of a block.
+    m_pendingFormat = c.charFormat();
+    m_pendingPosition = c.position();
+    emit formatChanged();
+}
+
 QTextDocument *TextFormatter::textDocument() const
 {
     return m_document ? m_document->textDocument() : nullptr;
@@ -232,10 +244,9 @@ QTextCharFormat TextFormatter::charFormat() const
     const QTextCursor c = cursor();
     if (c.isNull())
         return {};
-    QTextCharFormat format = c.charFormat();
     if (!c.hasSelection() && c.position() == m_pendingPosition)
-        format.merge(m_pendingFormat);
-    return format;
+        return m_pendingFormat;
+    return c.charFormat();
 }
 
 void TextFormatter::mergeCharFormat(const QTextCharFormat &format)
@@ -248,7 +259,7 @@ void TextFormatter::mergeCharFormat(const QTextCharFormat &format)
         c.mergeCharFormat(format);
     } else {
         if (c.position() != m_pendingPosition)
-            m_pendingFormat = {};
+            m_pendingFormat = c.charFormat();
         m_pendingFormat.merge(format);
         m_pendingPosition = c.position();
     }
@@ -271,7 +282,7 @@ void TextFormatter::onContentsChange(int position, int charsRemoved, int charsAd
             QTextCursor c(textDocument());
             c.setPosition(position);
             c.setPosition(position + charsAdded, QTextCursor::KeepAnchor);
-            c.mergeCharFormat(pending);
+            c.setCharFormat(pending);
         }
     }
     emit formatChanged();
