@@ -1,7 +1,0 @@
-<RCC>
-  <qresource prefix="/qt/qml/Notes/">
-    <file alias="Main.qml">/home/mpn/Documents/notes/Main.qml</file>
-    <file alias="NoteListDelegate.qml">/home/mpn/Documents/notes/NoteListDelegate.qml</file>
-  </qresource>
-</RCC>
-

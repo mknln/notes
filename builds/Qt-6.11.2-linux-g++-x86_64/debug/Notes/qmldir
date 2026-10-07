@@ -1,7 +1,0 @@
-module Notes
-typeinfo qtnotes.qmltypes
-prefer :/qt/qml/Notes/
-Main 254.0 Main.qml
-NoteListDelegate 254.0 NoteListDelegate.qml
-depends QtQuick
-
