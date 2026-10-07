@@ -8,7 +8,8 @@
 #include <QtQml/qqmlregistration.h>
 
 // List of notes, most recently modified first. Each note is stored as a
-// plain-text file named <uuid>.txt in the app data directory.
+// Markdown file named <uuid>.md in the app data directory. Plain-text .txt
+// notes from older versions are converted to Markdown when loaded.
 //
 // Edits are kept in memory and written to disk in batches: the first edit
 // after a save starts a short timer, and every note changed in the meantime
@@ -54,12 +55,14 @@ private:
     struct Note
     {
         QString id;
-        QString text;
+        QString text; // Markdown
+        QString plainText; // For the title and preview
         QDateTime modified;
     };
 
     void load();
     bool save(const Note &note) const;
+    void migrate(const QFileInfo &info);
     QString filePath(const QString &id) const;
 
     QList<Note> m_notes;

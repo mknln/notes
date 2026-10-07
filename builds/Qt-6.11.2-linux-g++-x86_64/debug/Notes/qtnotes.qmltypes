@@ -8,7 +8,7 @@ import QtQuick.tooling 1.2
 Module {
     Component {
         file: "notesmodel.h"
-        lineNumber: 17
+        lineNumber: 18
         name: "NotesModel"
         accessSemantics: "reference"
         prototype: "QAbstractListModel"
@@ -19,7 +19,7 @@ Module {
             type: "QString"
             read: "storagePath"
             index: 0
-            lineNumber: 21
+            lineNumber: 22
             isReadonly: true
             isPropertyConstant: true
         }
@@ -29,26 +29,26 @@ Module {
             read: "rowCount"
             notify: "countChanged"
             index: 1
-            lineNumber: 22
+            lineNumber: 23
             isReadonly: true
         }
-        Signal { name: "countChanged"; lineNumber: 51 }
-        Method { name: "createNote"; type: "QString"; lineNumber: 41 }
+        Signal { name: "countChanged"; lineNumber: 52 }
+        Method { name: "createNote"; type: "QString"; lineNumber: 42 }
         Method {
             name: "removeNote"
-            lineNumber: 42
+            lineNumber: 43
             Parameter { name: "id"; type: "QString" }
         }
         Method {
             name: "text"
             type: "QString"
             isMethodConstant: true
-            lineNumber: 43
+            lineNumber: 44
             Parameter { name: "id"; type: "QString" }
         }
         Method {
             name: "setText"
-            lineNumber: 44
+            lineNumber: 45
             Parameter { name: "id"; type: "QString" }
             Parameter { name: "text"; type: "QString" }
         }
@@ -56,24 +56,24 @@ Module {
             name: "title"
             type: "QString"
             isMethodConstant: true
-            lineNumber: 45
+            lineNumber: 46
             Parameter { name: "id"; type: "QString" }
         }
         Method {
             name: "indexOf"
             type: "int"
             isMethodConstant: true
-            lineNumber: 46
+            lineNumber: 47
             Parameter { name: "id"; type: "QString" }
         }
         Method {
             name: "idAt"
             type: "QString"
             isMethodConstant: true
-            lineNumber: 47
+            lineNumber: 48
             Parameter { name: "row"; type: "int" }
         }
-        Method { name: "flush"; lineNumber: 48 }
+        Method { name: "flush"; lineNumber: 49 }
     }
     Component {
         file: "qabstractitemmodel.h"
@@ -633,5 +633,87 @@ Module {
         name: "QAbstractListModel"
         accessSemantics: "reference"
         prototype: "QAbstractItemModel"
+    }
+    Component {
+        file: "textformatter.h"
+        lineNumber: 16
+        name: "TextFormatter"
+        accessSemantics: "reference"
+        prototype: "QObject"
+        exports: ["Notes/TextFormatter 254.0"]
+        exportMetaObjectRevisions: [65024]
+        Enum {
+            name: "ListStyle"
+            lineNumber: 29
+            values: ["NoList", "BulletList", "NumberedList"]
+        }
+        Property {
+            name: "document"
+            type: "QQuickTextDocument"
+            isPointer: true
+            read: "document"
+            write: "setDocument"
+            notify: "documentChanged"
+            index: 0
+            lineNumber: 20
+        }
+        Property {
+            name: "selectionStart"
+            type: "int"
+            read: "selectionStart"
+            write: "setSelectionStart"
+            notify: "selectionChanged"
+            index: 1
+            lineNumber: 21
+        }
+        Property {
+            name: "selectionEnd"
+            type: "int"
+            read: "selectionEnd"
+            write: "setSelectionEnd"
+            notify: "selectionChanged"
+            index: 2
+            lineNumber: 22
+        }
+        Property {
+            name: "bold"
+            type: "bool"
+            read: "bold"
+            write: "setBold"
+            notify: "formatChanged"
+            index: 3
+            lineNumber: 23
+        }
+        Property {
+            name: "italic"
+            type: "bool"
+            read: "italic"
+            write: "setItalic"
+            notify: "formatChanged"
+            index: 4
+            lineNumber: 24
+        }
+        Property {
+            name: "headingLevel"
+            type: "int"
+            read: "headingLevel"
+            write: "setHeadingLevel"
+            notify: "formatChanged"
+            index: 5
+            lineNumber: 25
+        }
+        Property {
+            name: "listStyle"
+            type: "ListStyle"
+            read: "listStyle"
+            write: "setListStyle"
+            notify: "formatChanged"
+            index: 6
+            lineNumber: 26
+        }
+        Signal { name: "documentChanged"; lineNumber: 65 }
+        Signal { name: "selectionChanged"; lineNumber: 66 }
+        Signal { name: "formatChanged"; lineNumber: 67 }
+        Method { name: "handleReturn"; type: "bool"; lineNumber: 62 }
     }
 }

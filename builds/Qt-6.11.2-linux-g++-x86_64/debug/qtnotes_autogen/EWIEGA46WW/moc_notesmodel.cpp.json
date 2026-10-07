@@ -8,12 +8,12 @@
                 }
             ],
             "className": "NotesModel",
-            "lineNumber": 17,
+            "lineNumber": 18,
             "methods": [
                 {
                     "access": "public",
                     "index": 1,
-                    "lineNumber": 41,
+                    "lineNumber": 42,
                     "name": "createNote",
                     "returnType": "QString"
                 },
@@ -26,7 +26,7 @@
                         }
                     ],
                     "index": 2,
-                    "lineNumber": 42,
+                    "lineNumber": 43,
                     "name": "removeNote",
                     "returnType": "void"
                 },
@@ -40,7 +40,7 @@
                     ],
                     "index": 3,
                     "isConst": true,
-                    "lineNumber": 43,
+                    "lineNumber": 44,
                     "name": "text",
                     "returnType": "QString"
                 },
@@ -57,7 +57,7 @@
                         }
                     ],
                     "index": 4,
-                    "lineNumber": 44,
+                    "lineNumber": 45,
                     "name": "setText",
                     "returnType": "void"
                 },
@@ -71,7 +71,7 @@
                     ],
                     "index": 5,
                     "isConst": true,
-                    "lineNumber": 45,
+                    "lineNumber": 46,
                     "name": "title",
                     "returnType": "QString"
                 },
@@ -85,7 +85,7 @@
                     ],
                     "index": 6,
                     "isConst": true,
-                    "lineNumber": 46,
+                    "lineNumber": 47,
                     "name": "indexOf",
                     "returnType": "int"
                 },
@@ -99,14 +99,14 @@
                     ],
                     "index": 7,
                     "isConst": true,
-                    "lineNumber": 47,
+                    "lineNumber": 48,
                     "name": "idAt",
                     "returnType": "QString"
                 },
                 {
                     "access": "public",
                     "index": 8,
-                    "lineNumber": 48,
+                    "lineNumber": 49,
                     "name": "flush",
                     "returnType": "void"
                 }
@@ -118,7 +118,7 @@
                     "designable": true,
                     "final": false,
                     "index": 0,
-                    "lineNumber": 21,
+                    "lineNumber": 22,
                     "name": "storagePath",
                     "override": false,
                     "read": "storagePath",
@@ -134,7 +134,7 @@
                     "designable": true,
                     "final": false,
                     "index": 1,
-                    "lineNumber": 22,
+                    "lineNumber": 23,
                     "name": "count",
                     "notify": "countChanged",
                     "override": false,
@@ -152,7 +152,7 @@
                 {
                     "access": "public",
                     "index": 0,
-                    "lineNumber": 51,
+                    "lineNumber": 52,
                     "name": "countChanged",
                     "returnType": "void"
                 }

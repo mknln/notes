@@ -1297,6 +1297,12 @@
 			"MU",
 			"EWIEGA46WW/moc_notesmodel.cpp",
 			null
+		],
+		[
+			"/home/mpn/Documents/notes/textformatter.h",
+			"MU",
+			"EWIEGA46WW/moc_textformatter.cpp",
+			null
 		]
 	],
 	"HEADER_EXTENSIONS" : [ "h", "hh", "h++", "hm", "hpp", "hxx", "in", "txx" ],
@@ -1382,7 +1388,8 @@
 	"SOURCES" : 
 	[
 		[ "/home/mpn/Documents/notes/main.cpp", "MU", null ],
-		[ "/home/mpn/Documents/notes/notesmodel.cpp", "MU", null ]
+		[ "/home/mpn/Documents/notes/notesmodel.cpp", "MU", null ],
+		[ "/home/mpn/Documents/notes/textformatter.cpp", "MU", null ]
 	],
 	"UIC_OPTIONS" : [],
 	"UIC_SEARCH_PATHS" : [],

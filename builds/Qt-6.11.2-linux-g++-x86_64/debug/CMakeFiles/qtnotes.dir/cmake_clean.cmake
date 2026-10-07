@@ -28,6 +28,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/qtnotes.dir/qtnotes_autogen/mocs_compilation.cpp.o.d"
   "CMakeFiles/qtnotes.dir/qtnotes_qmltyperegistrations.cpp.o"
   "CMakeFiles/qtnotes.dir/qtnotes_qmltyperegistrations.cpp.o.d"
+  "CMakeFiles/qtnotes.dir/textformatter.cpp.o"
+  "CMakeFiles/qtnotes.dir/textformatter.cpp.o.d"
   "Notes/qtnotes.qmltypes"
   "meta_types/qt6qtnotes_metatypes.json"
   "meta_types/qt6qtnotes_metatypes.json.gen"

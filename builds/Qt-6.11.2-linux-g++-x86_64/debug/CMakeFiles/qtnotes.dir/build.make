@@ -227,10 +227,24 @@ CMakeFiles/qtnotes.dir/notesmodel.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/qtnotes.dir/notesmodel.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mpn/Documents/notes/notesmodel.cpp -o CMakeFiles/qtnotes.dir/notesmodel.cpp.s
 
+CMakeFiles/qtnotes.dir/textformatter.cpp.o: CMakeFiles/qtnotes.dir/flags.make
+CMakeFiles/qtnotes.dir/textformatter.cpp.o: /home/mpn/Documents/notes/textformatter.cpp
+CMakeFiles/qtnotes.dir/textformatter.cpp.o: CMakeFiles/qtnotes.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/mpn/Documents/notes/builds/Qt-6.11.2-linux-g++-x86_64/debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object CMakeFiles/qtnotes.dir/textformatter.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/qtnotes.dir/textformatter.cpp.o -MF CMakeFiles/qtnotes.dir/textformatter.cpp.o.d -o CMakeFiles/qtnotes.dir/textformatter.cpp.o -c /home/mpn/Documents/notes/textformatter.cpp
+
+CMakeFiles/qtnotes.dir/textformatter.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/qtnotes.dir/textformatter.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mpn/Documents/notes/textformatter.cpp > CMakeFiles/qtnotes.dir/textformatter.cpp.i
+
+CMakeFiles/qtnotes.dir/textformatter.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/qtnotes.dir/textformatter.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mpn/Documents/notes/textformatter.cpp -o CMakeFiles/qtnotes.dir/textformatter.cpp.s
+
 CMakeFiles/qtnotes.dir/builds/Qt-6.11.2-linux-g++-x86_64/debug/.rcc/qmlcache/qtnotes_qmlcache_loader.cpp.o: CMakeFiles/qtnotes.dir/flags.make
 CMakeFiles/qtnotes.dir/builds/Qt-6.11.2-linux-g++-x86_64/debug/.rcc/qmlcache/qtnotes_qmlcache_loader.cpp.o: .rcc/qmlcache/qtnotes_qmlcache_loader.cpp
 CMakeFiles/qtnotes.dir/builds/Qt-6.11.2-linux-g++-x86_64/debug/.rcc/qmlcache/qtnotes_qmlcache_loader.cpp.o: CMakeFiles/qtnotes.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/mpn/Documents/notes/builds/Qt-6.11.2-linux-g++-x86_64/debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object CMakeFiles/qtnotes.dir/builds/Qt-6.11.2-linux-g++-x86_64/debug/.rcc/qmlcache/qtnotes_qmlcache_loader.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/mpn/Documents/notes/builds/Qt-6.11.2-linux-g++-x86_64/debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object CMakeFiles/qtnotes.dir/builds/Qt-6.11.2-linux-g++-x86_64/debug/.rcc/qmlcache/qtnotes_qmlcache_loader.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/qtnotes.dir/builds/Qt-6.11.2-linux-g++-x86_64/debug/.rcc/qmlcache/qtnotes_qmlcache_loader.cpp.o -MF CMakeFiles/qtnotes.dir/builds/Qt-6.11.2-linux-g++-x86_64/debug/.rcc/qmlcache/qtnotes_qmlcache_loader.cpp.o.d -o CMakeFiles/qtnotes.dir/builds/Qt-6.11.2-linux-g++-x86_64/debug/.rcc/qmlcache/qtnotes_qmlcache_loader.cpp.o -c /home/mpn/Documents/notes/builds/Qt-6.11.2-linux-g++-x86_64/debug/.rcc/qmlcache/qtnotes_qmlcache_loader.cpp
 
 CMakeFiles/qtnotes.dir/builds/Qt-6.11.2-linux-g++-x86_64/debug/.rcc/qmlcache/qtnotes_qmlcache_loader.cpp.i: cmake_force
@@ -244,7 +258,7 @@ CMakeFiles/qtnotes.dir/builds/Qt-6.11.2-linux-g++-x86_64/debug/.rcc/qmlcache/qtn
 CMakeFiles/qtnotes.dir/builds/Qt-6.11.2-linux-g++-x86_64/debug/.rcc/qmlcache/qtnotes_Main_qml.cpp.o: CMakeFiles/qtnotes.dir/flags.make
 CMakeFiles/qtnotes.dir/builds/Qt-6.11.2-linux-g++-x86_64/debug/.rcc/qmlcache/qtnotes_Main_qml.cpp.o: .rcc/qmlcache/qtnotes_Main_qml.cpp
 CMakeFiles/qtnotes.dir/builds/Qt-6.11.2-linux-g++-x86_64/debug/.rcc/qmlcache/qtnotes_Main_qml.cpp.o: CMakeFiles/qtnotes.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/mpn/Documents/notes/builds/Qt-6.11.2-linux-g++-x86_64/debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object CMakeFiles/qtnotes.dir/builds/Qt-6.11.2-linux-g++-x86_64/debug/.rcc/qmlcache/qtnotes_Main_qml.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/mpn/Documents/notes/builds/Qt-6.11.2-linux-g++-x86_64/debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building CXX object CMakeFiles/qtnotes.dir/builds/Qt-6.11.2-linux-g++-x86_64/debug/.rcc/qmlcache/qtnotes_Main_qml.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/qtnotes.dir/builds/Qt-6.11.2-linux-g++-x86_64/debug/.rcc/qmlcache/qtnotes_Main_qml.cpp.o -MF CMakeFiles/qtnotes.dir/builds/Qt-6.11.2-linux-g++-x86_64/debug/.rcc/qmlcache/qtnotes_Main_qml.cpp.o.d -o CMakeFiles/qtnotes.dir/builds/Qt-6.11.2-linux-g++-x86_64/debug/.rcc/qmlcache/qtnotes_Main_qml.cpp.o -c /home/mpn/Documents/notes/builds/Qt-6.11.2-linux-g++-x86_64/debug/.rcc/qmlcache/qtnotes_Main_qml.cpp
 
 CMakeFiles/qtnotes.dir/builds/Qt-6.11.2-linux-g++-x86_64/debug/.rcc/qmlcache/qtnotes_Main_qml.cpp.i: cmake_force
@@ -258,7 +272,7 @@ CMakeFiles/qtnotes.dir/builds/Qt-6.11.2-linux-g++-x86_64/debug/.rcc/qmlcache/qtn
 CMakeFiles/qtnotes.dir/builds/Qt-6.11.2-linux-g++-x86_64/debug/.rcc/qmlcache/qtnotes_NoteListDelegate_qml.cpp.o: CMakeFiles/qtnotes.dir/flags.make
 CMakeFiles/qtnotes.dir/builds/Qt-6.11.2-linux-g++-x86_64/debug/.rcc/qmlcache/qtnotes_NoteListDelegate_qml.cpp.o: .rcc/qmlcache/qtnotes_NoteListDelegate_qml.cpp
 CMakeFiles/qtnotes.dir/builds/Qt-6.11.2-linux-g++-x86_64/debug/.rcc/qmlcache/qtnotes_NoteListDelegate_qml.cpp.o: CMakeFiles/qtnotes.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/mpn/Documents/notes/builds/Qt-6.11.2-linux-g++-x86_64/debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building CXX object CMakeFiles/qtnotes.dir/builds/Qt-6.11.2-linux-g++-x86_64/debug/.rcc/qmlcache/qtnotes_NoteListDelegate_qml.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/mpn/Documents/notes/builds/Qt-6.11.2-linux-g++-x86_64/debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building CXX object CMakeFiles/qtnotes.dir/builds/Qt-6.11.2-linux-g++-x86_64/debug/.rcc/qmlcache/qtnotes_NoteListDelegate_qml.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/qtnotes.dir/builds/Qt-6.11.2-linux-g++-x86_64/debug/.rcc/qmlcache/qtnotes_NoteListDelegate_qml.cpp.o -MF CMakeFiles/qtnotes.dir/builds/Qt-6.11.2-linux-g++-x86_64/debug/.rcc/qmlcache/qtnotes_NoteListDelegate_qml.cpp.o.d -o CMakeFiles/qtnotes.dir/builds/Qt-6.11.2-linux-g++-x86_64/debug/.rcc/qmlcache/qtnotes_NoteListDelegate_qml.cpp.o -c /home/mpn/Documents/notes/builds/Qt-6.11.2-linux-g++-x86_64/debug/.rcc/qmlcache/qtnotes_NoteListDelegate_qml.cpp
 
 CMakeFiles/qtnotes.dir/builds/Qt-6.11.2-linux-g++-x86_64/debug/.rcc/qmlcache/qtnotes_NoteListDelegate_qml.cpp.i: cmake_force
@@ -272,7 +286,7 @@ CMakeFiles/qtnotes.dir/builds/Qt-6.11.2-linux-g++-x86_64/debug/.rcc/qmlcache/qtn
 CMakeFiles/qtnotes.dir/builds/Qt-6.11.2-linux-g++-x86_64/debug/.qt/rcc/qrc_qtnotes_raw_qml_0.cpp.o: CMakeFiles/qtnotes.dir/flags.make
 CMakeFiles/qtnotes.dir/builds/Qt-6.11.2-linux-g++-x86_64/debug/.qt/rcc/qrc_qtnotes_raw_qml_0.cpp.o: .qt/rcc/qrc_qtnotes_raw_qml_0.cpp
 CMakeFiles/qtnotes.dir/builds/Qt-6.11.2-linux-g++-x86_64/debug/.qt/rcc/qrc_qtnotes_raw_qml_0.cpp.o: CMakeFiles/qtnotes.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/mpn/Documents/notes/builds/Qt-6.11.2-linux-g++-x86_64/debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building CXX object CMakeFiles/qtnotes.dir/builds/Qt-6.11.2-linux-g++-x86_64/debug/.qt/rcc/qrc_qtnotes_raw_qml_0.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/mpn/Documents/notes/builds/Qt-6.11.2-linux-g++-x86_64/debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Building CXX object CMakeFiles/qtnotes.dir/builds/Qt-6.11.2-linux-g++-x86_64/debug/.qt/rcc/qrc_qtnotes_raw_qml_0.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/qtnotes.dir/builds/Qt-6.11.2-linux-g++-x86_64/debug/.qt/rcc/qrc_qtnotes_raw_qml_0.cpp.o -MF CMakeFiles/qtnotes.dir/builds/Qt-6.11.2-linux-g++-x86_64/debug/.qt/rcc/qrc_qtnotes_raw_qml_0.cpp.o.d -o CMakeFiles/qtnotes.dir/builds/Qt-6.11.2-linux-g++-x86_64/debug/.qt/rcc/qrc_qtnotes_raw_qml_0.cpp.o -c /home/mpn/Documents/notes/builds/Qt-6.11.2-linux-g++-x86_64/debug/.qt/rcc/qrc_qtnotes_raw_qml_0.cpp
 
 CMakeFiles/qtnotes.dir/builds/Qt-6.11.2-linux-g++-x86_64/debug/.qt/rcc/qrc_qtnotes_raw_qml_0.cpp.i: cmake_force
@@ -290,6 +304,7 @@ qtnotes_OBJECTS = \
 "CMakeFiles/qtnotes.dir/qtnotes_qmltyperegistrations.cpp.o" \
 "CMakeFiles/qtnotes.dir/builds/Qt-6.11.2-linux-g++-x86_64/debug/.qt/rcc/qrc_qmake_Notes.cpp.o" \
 "CMakeFiles/qtnotes.dir/notesmodel.cpp.o" \
+"CMakeFiles/qtnotes.dir/textformatter.cpp.o" \
 "CMakeFiles/qtnotes.dir/builds/Qt-6.11.2-linux-g++-x86_64/debug/.rcc/qmlcache/qtnotes_qmlcache_loader.cpp.o" \
 "CMakeFiles/qtnotes.dir/builds/Qt-6.11.2-linux-g++-x86_64/debug/.rcc/qmlcache/qtnotes_Main_qml.cpp.o" \
 "CMakeFiles/qtnotes.dir/builds/Qt-6.11.2-linux-g++-x86_64/debug/.rcc/qmlcache/qtnotes_NoteListDelegate_qml.cpp.o" \
@@ -303,6 +318,7 @@ qtnotes: CMakeFiles/qtnotes.dir/main.cpp.o
 qtnotes: CMakeFiles/qtnotes.dir/qtnotes_qmltyperegistrations.cpp.o
 qtnotes: CMakeFiles/qtnotes.dir/builds/Qt-6.11.2-linux-g++-x86_64/debug/.qt/rcc/qrc_qmake_Notes.cpp.o
 qtnotes: CMakeFiles/qtnotes.dir/notesmodel.cpp.o
+qtnotes: CMakeFiles/qtnotes.dir/textformatter.cpp.o
 qtnotes: CMakeFiles/qtnotes.dir/builds/Qt-6.11.2-linux-g++-x86_64/debug/.rcc/qmlcache/qtnotes_qmlcache_loader.cpp.o
 qtnotes: CMakeFiles/qtnotes.dir/builds/Qt-6.11.2-linux-g++-x86_64/debug/.rcc/qmlcache/qtnotes_Main_qml.cpp.o
 qtnotes: CMakeFiles/qtnotes.dir/builds/Qt-6.11.2-linux-g++-x86_64/debug/.rcc/qmlcache/qtnotes_NoteListDelegate_qml.cpp.o
@@ -319,7 +335,7 @@ qtnotes: /home/mpn/Qt6/6.11.2/gcc_64/lib/libQt6Qml.so.6.11.2
 qtnotes: /home/mpn/Qt6/6.11.2/gcc_64/lib/libQt6Network.so.6.11.2
 qtnotes: /home/mpn/Qt6/6.11.2/gcc_64/lib/libQt6Core.so.6.11.2
 qtnotes: CMakeFiles/qtnotes.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/mpn/Documents/notes/builds/Qt-6.11.2-linux-g++-x86_64/debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Linking CXX executable qtnotes"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/mpn/Documents/notes/builds/Qt-6.11.2-linux-g++-x86_64/debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Linking CXX executable qtnotes"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/qtnotes.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

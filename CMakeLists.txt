@@ -16,6 +16,7 @@ qt_add_qml_module(qtnotes
         NoteListDelegate.qml
     SOURCES
         notesmodel.h notesmodel.cpp
+        textformatter.h textformatter.cpp
 )
 
 target_link_libraries(qtnotes PRIVATE

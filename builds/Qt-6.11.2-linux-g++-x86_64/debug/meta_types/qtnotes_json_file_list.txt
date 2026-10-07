@@ -1,1 +1,2 @@
 /home/mpn/Documents/notes/builds/Qt-6.11.2-linux-g++-x86_64/debug/qtnotes_autogen/include/../EWIEGA46WW/moc_notesmodel.cpp.json
+/home/mpn/Documents/notes/builds/Qt-6.11.2-linux-g++-x86_64/debug/qtnotes_autogen/include/../EWIEGA46WW/moc_textformatter.cpp.json

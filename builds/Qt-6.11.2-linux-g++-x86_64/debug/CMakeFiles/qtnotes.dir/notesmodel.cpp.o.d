@@ -415,6 +415,19 @@ CMakeFiles/qtnotes.dir/notesmodel.cpp.o: \
  /home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qsavefile.h \
  /home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/QStandardPaths \
  /home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qstandardpaths.h \
+ /home/mpn/Qt6/6.11.2/gcc_64/include/QtGui/QTextDocument \
+ /home/mpn/Qt6/6.11.2/gcc_64/include/QtGui/qtextdocument.h \
+ /home/mpn/Qt6/6.11.2/gcc_64/include/QtGui/qtguiglobal.h \
+ /home/mpn/Qt6/6.11.2/gcc_64/include/QtGui/qtgui-config.h \
+ /home/mpn/Qt6/6.11.2/gcc_64/include/QtGui/qtguiexports.h \
+ /home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qsize.h \
+ /home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qcheckedint_impl.h \
+ /home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qmargins.h \
+ /home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qrect.h \
+ /home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qpoint.h \
+ /home/mpn/Qt6/6.11.2/gcc_64/include/QtGui/qfont.h \
+ /home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qendian.h \
+ /home/mpn/Qt6/6.11.2/gcc_64/include/QtGui/qwindowdefs.h \
+ /home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qurl.h \
  /home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/QUuid \
- /home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/quuid.h \
- /home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qendian.h
+ /home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/quuid.h

@@ -39,34 +39,162 @@
                         },
                         {
                             "codegenResult": 2,
+                            "column": 5,
+                            "durationMicroseconds": 0,
+                            "functionName": "loadNote",
+                            "line": 42,
+                            "message": "Cannot retrieve a non-object type by ID: editor"
+                        },
+                        {
+                            "codegenResult": 0,
                             "column": 25,
                             "durationMicroseconds": 0,
                             "functionName": "onCurrentIdChanged",
-                            "line": 37,
-                            "message": "Cannot retrieve a non-object type by ID: editor"
+                            "line": 48,
+                            "message": ""
                         },
                         {
-                            "codegenResult": 2,
+                            "codegenResult": 0,
                             "column": 28,
                             "durationMicroseconds": 0,
                             "functionName": "onCompleted",
-                            "line": 38,
+                            "line": 49,
+                            "message": ""
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 19,
+                            "durationMicroseconds": 0,
+                            "functionName": "document",
+                            "line": 57,
                             "message": "Cannot retrieve a non-object type by ID: editor"
                         },
                         {
                             "codegenResult": 2,
-                            "column": 27,
+                            "column": 25,
+                            "durationMicroseconds": 0,
+                            "functionName": "selectionStart",
+                            "line": 58,
+                            "message": "Cannot retrieve a non-object type by ID: editor"
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 23,
+                            "durationMicroseconds": 0,
+                            "functionName": "selectionEnd",
+                            "line": 59,
+                            "message": "Cannot retrieve a non-object type by ID: editor"
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 19,
                             "durationMicroseconds": 0,
                             "functionName": "shortcut",
-                            "line": 49,
+                            "line": 66,
                             "message": "Could not find property \"shortcut\"."
                         },
                         {
                             "codegenResult": 2,
-                            "column": 30,
+                            "column": 18,
+                            "durationMicroseconds": 0,
+                            "functionName": "enabled",
+                            "line": 67,
+                            "message": "Could not find property \"enabled\"."
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 18,
+                            "durationMicroseconds": 0,
+                            "functionName": "checked",
+                            "line": 69,
+                            "message": "Could not find property \"checked\"."
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 22,
                             "durationMicroseconds": 0,
                             "functionName": "onTriggered",
-                            "line": 50,
+                            "line": 70,
+                            "message": "Could not find signal \"triggered\"."
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 19,
+                            "durationMicroseconds": 0,
+                            "functionName": "shortcut",
+                            "line": 75,
+                            "message": "Could not find property \"shortcut\"."
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 18,
+                            "durationMicroseconds": 0,
+                            "functionName": "enabled",
+                            "line": 76,
+                            "message": "Could not find property \"enabled\"."
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 18,
+                            "durationMicroseconds": 0,
+                            "functionName": "checked",
+                            "line": 78,
+                            "message": "Could not find property \"checked\"."
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 22,
+                            "durationMicroseconds": 0,
+                            "functionName": "onTriggered",
+                            "line": 79,
+                            "message": "Could not find signal \"triggered\"."
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 18,
+                            "durationMicroseconds": 0,
+                            "functionName": "enabled",
+                            "line": 85,
+                            "message": "Could not find property \"enabled\"."
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 18,
+                            "durationMicroseconds": 0,
+                            "functionName": "checked",
+                            "line": 87,
+                            "message": "Could not find property \"checked\"."
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 22,
+                            "durationMicroseconds": 0,
+                            "functionName": "onTriggered",
+                            "line": 88,
+                            "message": "Could not find signal \"triggered\"."
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 18,
+                            "durationMicroseconds": 0,
+                            "functionName": "enabled",
+                            "line": 94,
+                            "message": "Could not find property \"enabled\"."
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 18,
+                            "durationMicroseconds": 0,
+                            "functionName": "checked",
+                            "line": 96,
+                            "message": "Could not find property \"checked\"."
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 22,
+                            "durationMicroseconds": 0,
+                            "functionName": "onTriggered",
+                            "line": 97,
                             "message": "Could not find signal \"triggered\"."
                         },
                         {
@@ -74,7 +202,7 @@
                             "column": 27,
                             "durationMicroseconds": 0,
                             "functionName": "shortcut",
-                            "line": 55,
+                            "line": 105,
                             "message": "Could not find property \"shortcut\"."
                         },
                         {
@@ -82,7 +210,23 @@
                             "column": 30,
                             "durationMicroseconds": 0,
                             "functionName": "onTriggered",
-                            "line": 56,
+                            "line": 106,
+                            "message": "Could not find signal \"triggered\"."
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 27,
+                            "durationMicroseconds": 0,
+                            "functionName": "shortcut",
+                            "line": 111,
+                            "message": "Could not find property \"shortcut\"."
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 30,
+                            "durationMicroseconds": 0,
+                            "functionName": "onTriggered",
+                            "line": 112,
                             "message": "Could not find signal \"triggered\"."
                         },
                         {
@@ -90,7 +234,7 @@
                             "column": 26,
                             "durationMicroseconds": 0,
                             "functionName": "enabled",
-                            "line": 63,
+                            "line": 119,
                             "message": "Could not find property \"enabled\"."
                         },
                         {
@@ -98,15 +242,119 @@
                             "column": 30,
                             "durationMicroseconds": 0,
                             "functionName": "onTriggered",
-                            "line": 64,
+                            "line": 120,
                             "message": "Could not find signal \"triggered\"."
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 32,
+                            "durationMicroseconds": 0,
+                            "functionName": "action",
+                            "line": 125,
+                            "message": "Could not find property \"action\"."
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 32,
+                            "durationMicroseconds": 0,
+                            "functionName": "action",
+                            "line": 126,
+                            "message": "Could not find property \"action\"."
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 36,
+                            "durationMicroseconds": 0,
+                            "functionName": "onObjectAdded",
+                            "line": 142,
+                            "message": "Cannot access value for name headingMenu"
+                        },
+                        {
+                            "codegenResult": 0,
+                            "column": 36,
+                            "durationMicroseconds": 0,
+                            "functionName": "onObjectAdded",
+                            "line": 142,
+                            "message": ""
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 38,
+                            "durationMicroseconds": 0,
+                            "functionName": "onObjectRemoved",
+                            "line": 143,
+                            "message": "Cannot access value for name headingMenu"
+                        },
+                        {
+                            "codegenResult": 0,
+                            "column": 38,
+                            "durationMicroseconds": 0,
+                            "functionName": "onObjectRemoved",
+                            "line": 143,
+                            "message": ""
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 31,
+                            "durationMicroseconds": 0,
+                            "functionName": "text",
+                            "line": 135,
+                            "message": "Could not find property \"text\"."
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 35,
+                            "durationMicroseconds": 0,
+                            "functionName": "shortcut",
+                            "line": 136,
+                            "message": "Could not find property \"shortcut\"."
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 34,
+                            "durationMicroseconds": 0,
+                            "functionName": "enabled",
+                            "line": 137,
+                            "message": "Could not find property \"enabled\"."
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 34,
+                            "durationMicroseconds": 0,
+                            "functionName": "checked",
+                            "line": 139,
+                            "message": "Could not find property \"checked\"."
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 38,
+                            "durationMicroseconds": 0,
+                            "functionName": "onTriggered",
+                            "line": 140,
+                            "message": "Could not find signal \"triggered\"."
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 32,
+                            "durationMicroseconds": 0,
+                            "functionName": "action",
+                            "line": 147,
+                            "message": "Could not find property \"action\"."
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 32,
+                            "durationMicroseconds": 0,
+                            "functionName": "action",
+                            "line": 148,
+                            "message": "Could not find property \"action\"."
                         },
                         {
                             "codegenResult": 2,
                             "column": 22,
                             "durationMicroseconds": 0,
                             "functionName": "orientation",
-                            "line": 71,
+                            "line": 154,
                             "message": "Could not find property \"orientation\"."
                         },
                         {
@@ -114,7 +362,7 @@
                             "column": 23,
                             "durationMicroseconds": 0,
                             "functionName": "fill",
-                            "line": 70,
+                            "line": 153,
                             "message": "Could not find property \"fill\"."
                         },
                         {
@@ -122,7 +370,7 @@
                             "column": 39,
                             "durationMicroseconds": 0,
                             "functionName": "preferredWidth",
-                            "line": 74,
+                            "line": 157,
                             "message": "Could not find property \"preferredWidth\"."
                         },
                         {
@@ -130,7 +378,7 @@
                             "column": 35,
                             "durationMicroseconds": 0,
                             "functionName": "fill",
-                            "line": 82,
+                            "line": 165,
                             "message": ""
                         },
                         {
@@ -138,7 +386,7 @@
                             "column": 31,
                             "durationMicroseconds": 0,
                             "functionName": "text",
-                            "line": 87,
+                            "line": 170,
                             "message": "Could not find property \"text\"."
                         },
                         {
@@ -146,7 +394,7 @@
                             "column": 36,
                             "durationMicroseconds": 0,
                             "functionName": "onClicked",
-                            "line": 95,
+                            "line": 178,
                             "message": "Could not find signal \"clicked\"."
                         },
                         {
@@ -154,7 +402,7 @@
                             "column": 42,
                             "durationMicroseconds": 0,
                             "functionName": "visible",
-                            "line": 93,
+                            "line": 176,
                             "message": "Could not find property \"visible\"."
                         },
                         {
@@ -162,7 +410,7 @@
                             "column": 24,
                             "durationMicroseconds": 0,
                             "functionName": "model",
-                            "line": 105,
+                            "line": 188,
                             "message": ""
                         },
                         {
@@ -170,7 +418,7 @@
                             "column": 31,
                             "durationMicroseconds": 0,
                             "functionName": "selected",
-                            "line": 109,
+                            "line": 192,
                             "message": "Cannot retrieve a non-object type by ID: window"
                         },
                         {
@@ -178,7 +426,7 @@
                             "column": 32,
                             "durationMicroseconds": 0,
                             "functionName": "onClicked",
-                            "line": 110,
+                            "line": 193,
                             "message": "Could not find signal \"clicked\"."
                         },
                         {
@@ -186,7 +434,7 @@
                             "column": 45,
                             "durationMicroseconds": 0,
                             "functionName": "onContextMenuRequested",
-                            "line": 111,
+                            "line": 194,
                             "message": "Cannot retrieve a non-object type by ID: window"
                         },
                         {
@@ -194,7 +442,7 @@
                             "column": 45,
                             "durationMicroseconds": 0,
                             "functionName": "onContextMenuRequested",
-                            "line": 111,
+                            "line": 194,
                             "message": ""
                         },
                         {
@@ -202,39 +450,271 @@
                             "column": 26,
                             "durationMicroseconds": 0,
                             "functionName": "enabled",
-                            "line": 126,
+                            "line": 212,
                             "message": "Could not find property \"enabled\"."
                         },
                         {
-                            "codegenResult": 2,
-                            "column": 27,
+                            "codegenResult": 0,
+                            "column": 35,
                             "durationMicroseconds": 0,
-                            "functionName": "wrapMode",
-                            "line": 127,
-                            "message": "Could not find property \"wrapMode\"."
+                            "functionName": "fill",
+                            "line": 215,
+                            "message": ""
                         },
                         {
                             "codegenResult": 2,
-                            "column": 34,
+                            "column": 38,
                             "durationMicroseconds": 0,
-                            "functionName": "placeholderText",
-                            "line": 130,
-                            "message": "Could not find property \"placeholderText\"."
+                            "functionName": "focusPolicy",
+                            "line": 220,
+                            "message": "Could not find property \"focusPolicy\"."
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 53,
+                            "durationMicroseconds": 0,
+                            "functionName": "implicitContentWidthPolicy",
+                            "line": 221,
+                            "message": "Could not find property \"implicitContentWidthPolicy\"."
                         },
                         {
                             "codegenResult": 2,
                             "column": 32,
                             "durationMicroseconds": 0,
+                            "functionName": "model",
+                            "line": 222,
+                            "message": "Could not find property \"model\"."
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 39,
+                            "durationMicroseconds": 0,
+                            "functionName": "currentIndex",
+                            "line": 224,
+                            "message": "Could not find property \"currentIndex\"."
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 38,
+                            "durationMicroseconds": 0,
+                            "functionName": "onActivated",
+                            "line": 225,
+                            "message": "Could not find signal \"activated\"."
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 38,
+                            "durationMicroseconds": 0,
+                            "functionName": "onActivated",
+                            "line": 225,
+                            "message": "Could not find signal \"activated\"."
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 33,
+                            "durationMicroseconds": 0,
+                            "functionName": "action",
+                            "line": 229,
+                            "message": "Could not find property \"action\"."
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 38,
+                            "durationMicroseconds": 0,
+                            "functionName": "focusPolicy",
+                            "line": 232,
+                            "message": "Could not find property \"focusPolicy\"."
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 42,
+                            "durationMicroseconds": 0,
+                            "functionName": "visible",
+                            "line": 233,
+                            "message": "Could not find property \"visible\"."
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 39,
+                            "durationMicroseconds": 0,
+                            "functionName": "text",
+                            "line": 234,
+                            "message": "Could not find property \"text\"."
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 33,
+                            "durationMicroseconds": 0,
+                            "functionName": "action",
+                            "line": 237,
+                            "message": "Could not find property \"action\"."
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 38,
+                            "durationMicroseconds": 0,
+                            "functionName": "focusPolicy",
+                            "line": 240,
+                            "message": "Could not find property \"focusPolicy\"."
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 42,
+                            "durationMicroseconds": 0,
+                            "functionName": "visible",
+                            "line": 241,
+                            "message": "Could not find property \"visible\"."
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 39,
+                            "durationMicroseconds": 0,
+                            "functionName": "text",
+                            "line": 242,
+                            "message": "Could not find property \"text\"."
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 33,
+                            "durationMicroseconds": 0,
+                            "functionName": "action",
+                            "line": 246,
+                            "message": "Could not find property \"action\"."
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 38,
+                            "durationMicroseconds": 0,
+                            "functionName": "focusPolicy",
+                            "line": 248,
+                            "message": "Could not find property \"focusPolicy\"."
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 42,
+                            "durationMicroseconds": 0,
+                            "functionName": "visible",
+                            "line": 249,
+                            "message": "Could not find property \"visible\"."
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 39,
+                            "durationMicroseconds": 0,
+                            "functionName": "text",
+                            "line": 250,
+                            "message": "Could not find property \"text\"."
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 33,
+                            "durationMicroseconds": 0,
+                            "functionName": "action",
+                            "line": 253,
+                            "message": "Could not find property \"action\"."
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 38,
+                            "durationMicroseconds": 0,
+                            "functionName": "focusPolicy",
+                            "line": 255,
+                            "message": "Could not find property \"focusPolicy\"."
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 42,
+                            "durationMicroseconds": 0,
+                            "functionName": "visible",
+                            "line": 256,
+                            "message": "Could not find property \"visible\"."
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 39,
+                            "durationMicroseconds": 0,
+                            "functionName": "text",
+                            "line": 257,
+                            "message": "Could not find property \"text\"."
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 30,
+                            "durationMicroseconds": 0,
+                            "functionName": "enabled",
+                            "line": 271,
+                            "message": "Could not find property \"enabled\"."
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 33,
+                            "durationMicroseconds": 0,
+                            "functionName": "textFormat",
+                            "line": 272,
+                            "message": "Could not find property \"textFormat\"."
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 31,
+                            "durationMicroseconds": 0,
+                            "functionName": "wrapMode",
+                            "line": 273,
+                            "message": "Could not find property \"wrapMode\"."
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 38,
+                            "durationMicroseconds": 0,
+                            "functionName": "placeholderText",
+                            "line": 276,
+                            "message": "Could not find property \"placeholderText\"."
+                        },
+                        {
+                            "codegenResult": 2,
+                            "column": 36,
+                            "durationMicroseconds": 0,
                             "functionName": "onTextChanged",
-                            "line": 133,
+                            "line": 277,
                             "message": "Could not find signal \"textChanged\"."
+                        },
+                        {
+                            "codegenResult": 0,
+                            "column": 43,
+                            "durationMicroseconds": 0,
+                            "functionName": "onReturnPressed",
+                            "line": 278,
+                            "message": ""
+                        },
+                        {
+                            "codegenResult": 0,
+                            "column": 43,
+                            "durationMicroseconds": 0,
+                            "functionName": "onReturnPressed",
+                            "line": 278,
+                            "message": ""
+                        },
+                        {
+                            "codegenResult": 0,
+                            "column": 42,
+                            "durationMicroseconds": 0,
+                            "functionName": "onEnterPressed",
+                            "line": 279,
+                            "message": ""
+                        },
+                        {
+                            "codegenResult": 0,
+                            "column": 42,
+                            "durationMicroseconds": 0,
+                            "functionName": "onEnterPressed",
+                            "line": 279,
+                            "message": ""
                         },
                         {
                             "codegenResult": 2,
                             "column": 26,
                             "durationMicroseconds": 0,
                             "functionName": "onTriggered",
-                            "line": 144,
+                            "line": 291,
                             "message": "Could not find signal \"triggered\"."
                         },
                         {
@@ -242,7 +722,7 @@
                             "column": 26,
                             "durationMicroseconds": 0,
                             "functionName": "standardButtons",
-                            "line": 156,
+                            "line": 303,
                             "message": "Could not find property \"standardButtons\"."
                         },
                         {
@@ -250,7 +730,7 @@
                             "column": 21,
                             "durationMicroseconds": 0,
                             "functionName": "onAccepted",
-                            "line": 162,
+                            "line": 309,
                             "message": "Could not find signal \"accepted\"."
                         },
                         {
@@ -258,7 +738,7 @@
                             "column": 27,
                             "durationMicroseconds": 0,
                             "functionName": "centerIn",
-                            "line": 153,
+                            "line": 300,
                             "message": "Could not find property \"centerIn\"."
                         },
                         {
@@ -266,7 +746,7 @@
                             "column": 19,
                             "durationMicroseconds": 0,
                             "functionName": "text",
-                            "line": 159,
+                            "line": 306,
                             "message": "Could not find property \"text\"."
                         }
                     ],

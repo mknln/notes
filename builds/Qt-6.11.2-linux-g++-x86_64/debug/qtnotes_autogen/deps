@@ -7,10 +7,18 @@ qtnotes_autogen/timestamp: \
 	/home/mpn/Documents/notes/main.cpp \
 	/home/mpn/Documents/notes/notesmodel.cpp \
 	/home/mpn/Documents/notes/notesmodel.h \
+	/home/mpn/Documents/notes/textformatter.cpp \
+	/home/mpn/Documents/notes/textformatter.h \
 	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/QAbstractListModel \
 	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/QDateTime \
 	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/QDir \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/QList \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/QObject \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/QPointer \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/QRect \
 	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/QSet \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/QSize \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/QSizeF \
 	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/QTimer \
 	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/q17memory.h \
 	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/q20bit.h \
@@ -41,6 +49,7 @@ qtnotes_autogen/timestamp: \
 	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qbytearrayview.h \
 	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qcalendar.h \
 	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qchar.h \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qcheckedint_impl.h \
 	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qcompare.h \
 	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qcompare_impl.h \
 	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qcomparehelpers.h \
@@ -51,6 +60,9 @@ qtnotes_autogen/timestamp: \
 	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qcontainerinfo.h \
 	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qcontainertools_impl.h \
 	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qcontiguouscache.h \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qcoreapplication.h \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qcoreapplication_platform.h \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qcoreevent.h \
 	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qdarwinhelpers.h \
 	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qdatastream.h \
 	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qdatetime.h \
@@ -58,6 +70,7 @@ qtnotes_autogen/timestamp: \
 	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qdebug.h \
 	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qdir.h \
 	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qdirlisting.h \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qendian.h \
 	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qeventloop.h \
 	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qexceptionhandling.h \
 	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qfile.h \
@@ -76,18 +89,24 @@ qtnotes_autogen/timestamp: \
 	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qiodevice.h \
 	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qiodevicebase.h \
 	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qiterable.h \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qiterable_impl.h \
 	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qiterator.h \
 	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qlatin1stringview.h \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qline.h \
 	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qlist.h \
 	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qlocale.h \
 	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qlogging.h \
 	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qmalloc.h \
 	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qmap.h \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qmargins.h \
 	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qmath.h \
 	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qmetacontainer.h \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qmetaobject.h \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qmetasequence.h \
 	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qmetatype.h \
 	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qminmax.h \
 	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qnamespace.h \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qnativeinterface.h \
 	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qnumeric.h \
 	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qobject.h \
 	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qobject_impl.h \
@@ -95,7 +114,12 @@ qtnotes_autogen/timestamp: \
 	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qobjectdefs_impl.h \
 	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qoverload.h \
 	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qpair.h \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qpoint.h \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qpointer.h \
 	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qprocessordetection.h \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qproperty.h \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qpropertyprivate.h \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qrect.h \
 	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qrefcount.h \
 	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qscopedpointer.h \
 	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qscopeguard.h \
@@ -104,6 +128,7 @@ qtnotes_autogen/timestamp: \
 	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qshareddata_impl.h \
 	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qsharedpointer.h \
 	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qsharedpointer_impl.h \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qsize.h \
 	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qspan.h \
 	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qstdlibdetection.h \
 	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qstring.h \
@@ -142,15 +167,80 @@ qtnotes_autogen/timestamp: \
 	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qtversion.h \
 	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qtversionchecks.h \
 	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qtypeinfo.h \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qtyperevision.h \
 	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qtypes.h \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qurl.h \
 	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qutf8stringview.h \
 	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qvariant.h \
 	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qvarlengtharray.h \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qversionnumber.h \
 	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qversiontagging.h \
 	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qxptype_traits.h \
 	/home/mpn/Qt6/6.11.2/gcc_64/include/QtCore/qyieldcpu.h \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtGui/QTextCharFormat \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtGui/QTextCursor \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtGui/QTextDocument \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtGui/QTransform \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtGui/qaccessible.h \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtGui/qaccessible_base.h \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtGui/qbrush.h \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtGui/qcolor.h \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtGui/qevent.h \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtGui/qeventpoint.h \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtGui/qfont.h \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtGui/qguiapplication.h \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtGui/qguiapplication_platform.h \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtGui/qimage.h \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtGui/qinputdevice.h \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtGui/qinputmethod.h \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtGui/qkeysequence.h \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtGui/qpaintdevice.h \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtGui/qpen.h \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtGui/qpixelformat.h \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtGui/qpixmap.h \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtGui/qpointingdevice.h \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtGui/qpolygon.h \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtGui/qregion.h \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtGui/qrgb.h \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtGui/qrgba64.h \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtGui/qscreen.h \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtGui/qscreen_platform.h \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtGui/qtextcursor.h \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtGui/qtextdocument.h \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtGui/qtextformat.h \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtGui/qtextoption.h \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtGui/qtgui-config.h \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtGui/qtguiexports.h \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtGui/qtguiglobal.h \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtGui/qtransform.h \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtGui/qvector2d.h \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtGui/qvectornd.h \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtGui/qwindowdefs.h \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtNetwork/qtnetwork-config.h \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtNetwork/qtnetworkexports.h \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtNetwork/qtnetworkglobal.h \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtQml/qjsnumbercoercion.h \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtQml/qjsprimitivevalue.h \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtQml/qjsvalue.h \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtQml/qqml.h \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtQml/qqmlcomponent.h \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtQml/qqmlerror.h \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtQml/qqmllist.h \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtQml/qqmlparserstatus.h \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtQml/qqmlprivate.h \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtQml/qqmlpropertyvaluesource.h \
 	/home/mpn/Qt6/6.11.2/gcc_64/include/QtQml/qqmlregistration.h \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtQml/qtqml-config.h \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtQml/qtqmlexports.h \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtQml/qtqmlglobal.h \
 	/home/mpn/Qt6/6.11.2/gcc_64/include/QtQmlIntegration/qqmlintegration.h \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtQuick/QQuickItem \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtQuick/QQuickTextDocument \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtQuick/qquickitem.h \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtQuick/qquicktextdocument.h \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtQuick/qtquick-config.h \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtQuick/qtquickexports.h \
+	/home/mpn/Qt6/6.11.2/gcc_64/include/QtQuick/qtquickglobal.h \
 	/home/mpn/Qt6/6.11.2/gcc_64/lib/cmake/Qt6/FindWrapAtomic.cmake \
 	/home/mpn/Qt6/6.11.2/gcc_64/lib/cmake/Qt6/FindWrapOpenGL.cmake \
 	/home/mpn/Qt6/6.11.2/gcc_64/lib/cmake/Qt6/FindWrapVulkanHeaders.cmake \
@@ -1139,6 +1229,7 @@ qtnotes_autogen/timestamp: \
 	/usr/include/c++/15/debug/assertions.h \
 	/usr/include/c++/15/debug/debug.h \
 	/usr/include/c++/15/exception \
+	/usr/include/c++/15/experimental/source_location \
 	/usr/include/c++/15/ext/aligned_buffer.h \
 	/usr/include/c++/15/ext/alloc_traits.h \
 	/usr/include/c++/15/ext/atomicity.h \

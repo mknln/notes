@@ -4,6 +4,7 @@
 #include <QFile>
 #include <QSaveFile>
 #include <QStandardPaths>
+#include <QTextDocument>
 #include <QUuid>
 
 #include <algorithm>
@@ -28,6 +29,13 @@ QStringList leadingLines(const QString &text, int count)
         start = end + 1;
     }
     return lines;
+}
+
+QString markdownToPlainText(const QString &markdown)
+{
+    QTextDocument doc;
+    doc.setMarkdown(markdown);
+    return doc.toPlainText();
 }
 
 } // namespace
@@ -70,7 +78,7 @@ QVariant NotesModel::data(const QModelIndex &index, int role) const
     case TitleRole:
         return title(note.id);
     case PreviewRole: {
-        const QStringList lines = leadingLines(note.text, 2);
+        const QStringList lines = leadingLines(note.plainText, 2);
         return lines.size() > 1 ? lines.at(1) : tr("No additional text");
     }
     case ModifiedRole:
@@ -96,7 +104,7 @@ QString NotesModel::storagePath() const
 
 QString NotesModel::createNote()
 {
-    Note note{ QUuid::createUuid().toString(QUuid::WithoutBraces), QString(),
+    Note note{ QUuid::createUuid().toString(QUuid::WithoutBraces), QString(), QString(),
                QDateTime::currentDateTime() };
 
     beginInsertRows({}, 0, 0);
@@ -146,6 +154,7 @@ void NotesModel::setText(const QString &id, const QString &text)
 
     Note &note = m_notes[row];
     note.text = text;
+    note.plainText = markdownToPlainText(text);
     note.modified = QDateTime::currentDateTime();
     const QModelIndex idx = index(row);
     emit dataChanged(idx, idx, { Qt::DisplayRole, TitleRole, PreviewRole, ModifiedRole });
@@ -162,7 +171,7 @@ QString NotesModel::title(const QString &id) const
     const int row = indexOf(id);
     if (row < 0)
         return {};
-    const QStringList lines = leadingLines(m_notes.at(row).text, 1);
+    const QStringList lines = leadingLines(m_notes.at(row).plainText, 1);
     return lines.isEmpty() ? tr("New Note") : lines.first();
 }
 
@@ -191,14 +200,19 @@ void NotesModel::flush()
 
 void NotesModel::load()
 {
-    const QFileInfoList files = m_dir.entryInfoList({ QStringLiteral("*.txt") }, QDir::Files);
+    const QFileInfoList oldFiles = m_dir.entryInfoList({ QStringLiteral("*.txt") }, QDir::Files);
+    for (const QFileInfo &info : oldFiles)
+        migrate(info);
+
+    const QFileInfoList files = m_dir.entryInfoList({ QStringLiteral("*.md") }, QDir::Files);
     for (const QFileInfo &info : files) {
         QFile file(info.absoluteFilePath());
         if (!file.open(QIODevice::ReadOnly)) {
             qWarning("Could not read note file %s", qPrintable(info.absoluteFilePath()));
             continue;
         }
-        m_notes.append({ info.completeBaseName(), QString::fromUtf8(file.readAll()),
+        const QString text = QString::fromUtf8(file.readAll());
+        m_notes.append({ info.completeBaseName(), text, markdownToPlainText(text),
                          info.lastModified() });
     }
 
@@ -218,7 +232,33 @@ bool NotesModel::save(const Note &note) const
     return true;
 }
 
+// Converts a plain-text note to Markdown, escaping anything that would
+// otherwise be read as formatting. Keeps the modification time so the note
+// list order doesn't change.
+void NotesModel::migrate(const QFileInfo &info)
+{
+    QFile file(info.absoluteFilePath());
+    if (!file.open(QIODevice::ReadOnly)) {
+        qWarning("Could not read note file %s", qPrintable(info.absoluteFilePath()));
+        return;
+    }
+    QTextDocument doc;
+    doc.setPlainText(QString::fromUtf8(file.readAll()));
+    file.close();
+
+    const Note note{ info.completeBaseName(), doc.toMarkdown(), QString(), info.lastModified() };
+    if (!save(note))
+        return;
+    QFile saved(filePath(note.id));
+    if (!saved.open(QIODevice::ReadWrite)
+        || !saved.setFileTime(note.modified, QFileDevice::FileModificationTime))
+        qWarning("Could not keep modification time of note %s", qPrintable(note.id));
+    saved.close();
+    if (!file.remove())
+        qWarning("Could not remove migrated note file %s", qPrintable(file.fileName()));
+}
+
 QString NotesModel::filePath(const QString &id) const
 {
-    return m_dir.filePath(id + QStringLiteral(".txt"));
+    return m_dir.filePath(id + QStringLiteral(".md"));
 }

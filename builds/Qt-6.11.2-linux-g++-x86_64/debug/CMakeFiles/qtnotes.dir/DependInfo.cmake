@@ -18,6 +18,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/mpn/Documents/notes/notesmodel.cpp" "CMakeFiles/qtnotes.dir/notesmodel.cpp.o" "gcc" "CMakeFiles/qtnotes.dir/notesmodel.cpp.o.d"
   "/home/mpn/Documents/notes/builds/Qt-6.11.2-linux-g++-x86_64/debug/qtnotes_autogen/mocs_compilation.cpp" "CMakeFiles/qtnotes.dir/qtnotes_autogen/mocs_compilation.cpp.o" "gcc" "CMakeFiles/qtnotes.dir/qtnotes_autogen/mocs_compilation.cpp.o.d"
   "/home/mpn/Documents/notes/builds/Qt-6.11.2-linux-g++-x86_64/debug/qtnotes_qmltyperegistrations.cpp" "CMakeFiles/qtnotes.dir/qtnotes_qmltyperegistrations.cpp.o" "gcc" "CMakeFiles/qtnotes.dir/qtnotes_qmltyperegistrations.cpp.o.d"
+  "/home/mpn/Documents/notes/textformatter.cpp" "CMakeFiles/qtnotes.dir/textformatter.cpp.o" "gcc" "CMakeFiles/qtnotes.dir/textformatter.cpp.o.d"
   "" "qtnotes" "gcc" "CMakeFiles/qtnotes.dir/link.d"
   )
 

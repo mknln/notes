@@ -10,6 +10,9 @@
 #if __has_include(<notesmodel.h>)
 #  include <notesmodel.h>
 #endif
+#if __has_include(<textformatter.h>)
+#  include <textformatter.h>
+#endif
 
 
 #if !defined(QT_STATIC)
@@ -26,6 +29,8 @@ Q_QMLTYPE_EXPORT void qml_register_types_Notes()
     qmlRegisterEnum<QAbstractItemModel::LayoutChangeHint>("QAbstractItemModel::LayoutChangeHint");
     qmlRegisterEnum<QAbstractItemModel::CheckIndexOption>("QAbstractItemModel::CheckIndexOption");
     QMetaType::fromType<QAbstractListModel *>().id();
+    qmlRegisterTypesAndRevisions<TextFormatter>("Notes", 254);
+    qmlRegisterEnum<TextFormatter::ListStyle>("TextFormatter::ListStyle");
     QT_WARNING_POP
     qmlRegisterModule("Notes", 254, 254);
 }

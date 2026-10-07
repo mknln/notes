@@ -637,6 +637,30 @@ qtnotes_qmltyperegistrations.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/qtnotes.dir/build.make CMakeFiles/qtnotes.dir/qtnotes_qmltyperegistrations.cpp.s
 .PHONY : qtnotes_qmltyperegistrations.cpp.s
 
+textformatter.o: textformatter.cpp.o
+.PHONY : textformatter.o
+
+# target to build an object file
+textformatter.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/qtnotes.dir/build.make CMakeFiles/qtnotes.dir/textformatter.cpp.o
+.PHONY : textformatter.cpp.o
+
+textformatter.i: textformatter.cpp.i
+.PHONY : textformatter.i
+
+# target to preprocess a source file
+textformatter.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/qtnotes.dir/build.make CMakeFiles/qtnotes.dir/textformatter.cpp.i
+.PHONY : textformatter.cpp.i
+
+textformatter.s: textformatter.cpp.s
+.PHONY : textformatter.s
+
+# target to generate assembly for a file
+textformatter.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/qtnotes.dir/build.make CMakeFiles/qtnotes.dir/textformatter.cpp.s
+.PHONY : textformatter.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -696,6 +720,9 @@ help:
 	@echo "... qtnotes_qmltyperegistrations.o"
 	@echo "... qtnotes_qmltyperegistrations.i"
 	@echo "... qtnotes_qmltyperegistrations.s"
+	@echo "... textformatter.o"
+	@echo "... textformatter.i"
+	@echo "... textformatter.s"
 .PHONY : help
 
 
