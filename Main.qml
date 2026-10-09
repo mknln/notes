@@ -1,5 +1,6 @@
 pragma ComponentBehavior: Bound
 
+import QtCore
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
@@ -27,6 +28,10 @@ ApplicationWindow {
         deleteDialog.open()
     }
 
+    function isPinned(id) {
+        return notesModel.pinnedIds.includes(id)
+    }
+
     function deleteNote(id) {
         const row = notesModel.indexOf(id)
         notesModel.removeNote(id)
@@ -35,24 +40,61 @@ ApplicationWindow {
     }
 
     // Set while a note's text is put into the editor, so that doesn't count
-    // as an edit. The editor's Markdown can differ from the saved file (e.g.
-    // in list spacing) even though nothing changed.
+    // as an edit.
     property bool loadingNote: false
+    // Set once the window is complete. Notes are only loaded after that: the
+    // editor doesn't take its text until it's complete, and reports it as a
+    // change when it does.
+    property bool ready: false
+    // The editor's Markdown when it last changed. The editor also reports a
+    // change when it lays the text out again, e.g. when its width changes, and
+    // its Markdown can differ from the saved file (e.g. in list spacing), so
+    // comparing with the saved text would count that as an edit.
+    property string editorMarkdown
 
     function loadNote() {
         loadingNote = true
         editor.text = notesModel.text(currentId)
+        if (formatter.prepareLoadedText()) {
+            // Works around the editor not drawing the reformatted line (or
+            // the cursor at its new height) after its text was replaced:
+            // changing the padding makes it lay everything out again.
+            editor.leftPadding += 1
+            editor.leftPadding -= 1
+        }
         // Otherwise the format at the cursor in the previous note (e.g. a
         // heading) carries over into this one.
         formatter.resetTypingFormat()
         loadingNote = false
+        editorMarkdown = formatter.markdown()
     }
 
-    onCurrentIdChanged: loadNote()
-    Component.onCompleted: loadNote()
+    function saveEditorText() {
+        if (!ready || !currentId || loadingNote)
+            return
+        const markdown = formatter.markdown()
+        if (markdown === editorMarkdown)
+            return
+        editorMarkdown = markdown
+        notesModel.setText(currentId, markdown)
+    }
+
+    onCurrentIdChanged: if (ready) loadNote()
+    Component.onCompleted: {
+        ready = true
+        loadNote()
+    }
 
     NotesModel {
         id: notesModel
+    }
+
+    // Stored in a file of its own: the default location needs an
+    // organization name, and setting one would also move the notes.
+    Settings {
+        id: settings
+        location: StandardPaths.writableLocation(StandardPaths.AppConfigLocation) + "/settings.ini"
+        property bool use24HourTime: false
     }
 
     TextFormatter {
@@ -60,6 +102,8 @@ ApplicationWindow {
         document: editor.textDocument
         selectionStart: editor.selectionStart
         selectionEnd: editor.selectionEnd
+        // The first line is the note's title.
+        titleHeadingLevel: 2
     }
 
     // Shared by the Format menu and the formatting toolbar.
@@ -82,10 +126,19 @@ ApplicationWindow {
         onTriggered: formatter.italic = checked
     }
     Action {
+        id: strikeOutAction
+        text: qsTr("&Strikethrough")
+        shortcut: "Ctrl+Shift+X"
+        enabled: editor.enabled
+        checkable: true
+        checked: formatter.strikeOut
+        onTriggered: formatter.strikeOut = checked
+    }
+    Action {
         id: bulletListAction
         text: qsTr("B&ulleted List")
         shortcut: "Ctrl+Shift+8"
-        enabled: editor.enabled
+        enabled: editor.enabled && !formatter.onTitleLine
         checkable: true
         checked: formatter.listStyle === TextFormatter.BulletList
         onTriggered: formatter.listStyle = checked ? TextFormatter.BulletList : TextFormatter.NoList
@@ -94,7 +147,7 @@ ApplicationWindow {
         id: numberedListAction
         text: qsTr("&Numbered List")
         shortcut: "Ctrl+Shift+7"
-        enabled: editor.enabled
+        enabled: editor.enabled && !formatter.onTitleLine
         checkable: true
         checked: formatter.listStyle === TextFormatter.NumberedList
         onTriggered: formatter.listStyle = checked ? TextFormatter.NumberedList : TextFormatter.NoList
@@ -118,6 +171,12 @@ ApplicationWindow {
         Menu {
             title: qsTr("&Note")
             Action {
+                text: window.isPinned(window.currentId) ? qsTr("Un&pin Note") : qsTr("&Pin Note")
+                enabled: window.currentId !== ""
+                onTriggered: notesModel.setPinned(window.currentId, !window.isPinned(window.currentId))
+            }
+            MenuSeparator {}
+            Action {
                 text: qsTr("&Delete Note")
                 enabled: window.currentId !== ""
                 onTriggered: window.requestDelete(window.currentId)
@@ -127,6 +186,7 @@ ApplicationWindow {
             title: qsTr("F&ormat")
             MenuItem { action: boldAction }
             MenuItem { action: italicAction }
+            MenuItem { action: strikeOutAction }
             MenuSeparator {}
             Menu {
                 id: headingMenu
@@ -137,7 +197,7 @@ ApplicationWindow {
                         required property int index
                         text: index === 0 ? qsTr("&Normal Text") : qsTr("Heading &%1").arg(index)
                         shortcut: "Ctrl+" + index
-                        enabled: editor.enabled
+                        enabled: editor.enabled && !formatter.onTitleLine
                         checkable: true
                         checked: formatter.headingLevel === index
                         onTriggered: formatter.headingLevel = index
@@ -149,6 +209,27 @@ ApplicationWindow {
             MenuSeparator {}
             MenuItem { action: bulletListAction }
             MenuItem { action: numberedListAction }
+        }
+        Menu {
+            title: qsTr("&Insert")
+            Action {
+                text: qsTr("&Date")
+                shortcut: "F2"
+                enabled: editor.enabled
+                // e.g. [11/22/26 - 11:38:02pm], or [11/22/26 - 23:38:02]
+                onTriggered: {
+                    const format = settings.use24HourTime ? "M/d/yy - HH:mm:ss" : "M/d/yy - h:mm:ss AP"
+                    formatter.insertText("[" + Qt.formatDateTime(new Date(), format) + "]")
+                    editor.forceActiveFocus()
+                }
+            }
+            MenuSeparator {}
+            Action {
+                text: qsTr("Use &24-Hour Time")
+                checkable: true
+                checked: settings.use24HourTime
+                onTriggered: settings.use24HourTime = checked
+            }
         }
     }
 
@@ -190,10 +271,16 @@ ApplicationWindow {
                 clip: true
                 model: notesModel
                 ScrollBar.vertical: ScrollBar {}
+                // Clicking a note gives the list focus, so this only applies
+                // while the list is being used, not while typing in the editor.
+                Keys.onDeletePressed: if (window.currentId) window.requestDelete(window.currentId)
 
                 delegate: NoteListDelegate {
                     selected: noteId === window.currentId
-                    onClicked: window.currentId = noteId
+                    onClicked: {
+                        window.currentId = noteId
+                        noteList.forceActiveFocus()
+                    }
                     onContextMenuRequested: clickedId => {
                         window.currentId = clickedId
                         noteMenu.noteId = clickedId
@@ -220,6 +307,7 @@ ApplicationWindow {
                     spacing: 2
 
                     ComboBox {
+                        enabled: !formatter.onTitleLine
                         focusPolicy: Qt.NoFocus
                         implicitContentWidthPolicy: ComboBox.WidestText
                         model: [qsTr("Normal Text"), qsTr("Heading 1"), qsTr("Heading 2"), qsTr("Heading 3"),
@@ -243,6 +331,14 @@ ApplicationWindow {
                         focusPolicy: Qt.NoFocus
                         ToolTip.visible: hovered
                         ToolTip.text: qsTr("Italic (%1)").arg(italicAction.shortcut)
+                    }
+                    ToolButton {
+                        action: strikeOutAction
+                        text: "S"
+                        font.strikeout: true
+                        focusPolicy: Qt.NoFocus
+                        ToolTip.visible: hovered
+                        ToolTip.text: qsTr("Strikethrough (%1)").arg(strikeOutAction.shortcut)
                     }
                     ToolSeparator {}
                     ToolButton {
@@ -318,10 +414,19 @@ ApplicationWindow {
                     wrapMode: TextArea.Wrap
                     font.pixelSize: 15
                     padding: 16
-                    placeholderText: enabled ? qsTr("Start typing…") : qsTr("No note selected. Press + to create one.")
-                    onTextChanged: if (window.currentId && !window.loadingNote) notesModel.setText(window.currentId, text)
+                    // An empty note can still have formatting, such as a list
+                    // bullet, which the placeholder would overlap. The title
+                    // line is always a heading, so it still shows there.
+                    placeholderText: !enabled ? qsTr("No note selected. Press + to create one.")
+                                   : formatter.listStyle === TextFormatter.NoList
+                                     && (formatter.headingLevel === 0 || formatter.onTitleLine) ? qsTr("Start typing…")
+                                   : ""
+                    onTextChanged: window.saveEditorText()
                     Keys.onReturnPressed: event => event.accepted = formatter.handleReturn()
                     Keys.onEnterPressed: event => event.accepted = formatter.handleReturn()
+                    Keys.onSpacePressed: event => event.accepted = formatter.handleSpace()
+                    Keys.onTabPressed: event => event.accepted = formatter.shiftListLevel(1)
+                    Keys.onBacktabPressed: event => event.accepted = formatter.shiftListLevel(-1)
                     Keys.onPressed: event => {
                         if (event.key !== Qt.Key_PageUp && event.key !== Qt.Key_PageDown)
                             return
@@ -338,6 +443,11 @@ ApplicationWindow {
         id: noteMenu
         property string noteId
 
+        MenuItem {
+            text: window.isPinned(noteMenu.noteId) ? qsTr("Unpin Note") : qsTr("Pin Note")
+            onTriggered: notesModel.setPinned(noteMenu.noteId, !window.isPinned(noteMenu.noteId))
+        }
+        MenuSeparator {}
         MenuItem {
             text: qsTr("Delete Note")
             onTriggered: window.requestDelete(noteMenu.noteId)

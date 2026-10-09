@@ -9,6 +9,7 @@ ItemDelegate {
     required property string title
     required property string preview
     required property date modified
+    required property bool pinned
     required property bool selected
 
     signal contextMenuRequested(string noteId, string title)
@@ -26,10 +27,20 @@ ItemDelegate {
     contentItem: ColumnLayout {
         spacing: 2
 
-        Label {
+        RowLayout {
             Layout.fillWidth: true
-            text: root.title
-            elide: Text.ElideRight
+            spacing: 4
+
+            Label {
+                Layout.fillWidth: true
+                text: root.title
+                elide: Text.ElideRight
+            }
+            Label {
+                visible: root.pinned
+                text: "📌"
+                Accessible.name: qsTr("Pinned")
+            }
         }
         RowLayout {
             Layout.fillWidth: true
