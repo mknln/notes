@@ -5,6 +5,8 @@
 #include <QDir>
 #include <QSet>
 #include <QTimer>
+#include <QUrl>
+#include <QVariantMap>
 #include <QtQml/qqmlregistration.h>
 
 // List of notes: pinned notes first, then the rest, each most recently
@@ -17,6 +19,9 @@
 // after a save starts a short timer, and every note changed in the meantime
 // is written when it fires. Typing therefore never waits on disk I/O, and at
 // most one save interval of edits can be lost on a crash.
+//
+// All notes can be exported to a zip file and imported from one: see
+// exportNotes() and importNotes().
 class NotesModel : public QAbstractListModel
 {
     Q_OBJECT
@@ -54,9 +59,26 @@ public:
     Q_INVOKABLE void setPinned(const QString &id, bool pinned);
     Q_INVOKABLE void flush();
 
+    // Writes every note to a zip file, one Markdown file per note named after
+    // its title, plus a manifest.json recording each file's note id,
+    // modification time and pinned state. Returns an error message, or an
+    // empty string on success.
+    Q_INVOKABLE QString exportNotes(const QUrl &file) const;
+
+    // Adds the notes in a zip file written by exportNotes(). A note that's
+    // already here is only replaced if the zip's copy is newer and differs.
+    // Zips from elsewhere work too: each .md file becomes a new note, with
+    // the modification time it has in the zip. Returns a map with the counts
+    // "added", "updated" and "skipped" (already up to date), or with an
+    // "error" message if the file couldn't be read or had no notes.
+    Q_INVOKABLE QVariantMap importNotes(const QUrl &file);
+
 signals:
     void countChanged();
     void pinnedIdsChanged();
+    // importNotes() replaced the note's text, so an editor showing it should
+    // load it again.
+    void noteReplaced(const QString &id);
 
 private:
     struct Note
@@ -68,12 +90,14 @@ private:
         bool pinned = false;
     };
 
+    static QString titleOf(const Note &note);
     static bool comesBefore(const Note &a, const Note &b);
     int sortedRow(const Note &note, int ignoredRow = -1) const;
     int moveToSortedRow(int row);
 
     void load();
     bool save(const Note &note) const;
+    void keepModifiedTime(const Note &note) const;
     void migrate(const QFileInfo &info);
     QSet<QString> loadPinned() const;
     void savePinned() const;

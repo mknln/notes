@@ -3,6 +3,7 @@ pragma ComponentBehavior: Bound
 import QtCore
 import QtQuick
 import QtQuick.Controls
+import QtQuick.Dialogs
 import QtQuick.Layouts
 
 ApplicationWindow {
@@ -26,6 +27,40 @@ ApplicationWindow {
         deleteDialog.noteId = id
         deleteDialog.noteTitle = notesModel.title(id)
         deleteDialog.open()
+    }
+
+    function noteCount(count) {
+        return count === 1 ? qsTr("1 note") : qsTr("%1 notes").arg(count)
+    }
+
+    function showMessage(title, text) {
+        messageDialog.title = title
+        messageDialog.text = text
+        messageDialog.open()
+    }
+
+    function exportNotes() {
+        exportDialog.selectedFile = exportDialog.currentFolder + "/"
+                + qsTr("Notes %1.zip").arg(Qt.formatDate(new Date(), "yyyy-MM-dd"))
+        exportDialog.open()
+    }
+
+    function importNotes(file) {
+        const result = notesModel.importNotes(file)
+        if (result.error) {
+            showMessage(qsTr("Import Failed"), result.error)
+            return
+        }
+        if (!currentId)
+            currentId = notesModel.idAt(0)
+        const lines = []
+        if (result.added > 0)
+            lines.push(qsTr("%1 added").arg(noteCount(result.added)))
+        if (result.updated > 0)
+            lines.push(qsTr("%1 updated").arg(noteCount(result.updated)))
+        if (result.skipped > 0)
+            lines.push(qsTr("%1 already up to date").arg(noteCount(result.skipped)))
+        showMessage(qsTr("Import Complete"), lines.join("\n"))
     }
 
     function isPinned(id) {
@@ -87,6 +122,10 @@ ApplicationWindow {
 
     NotesModel {
         id: notesModel
+        onNoteReplaced: id => {
+            if (id === window.currentId)
+                window.loadNote()
+        }
     }
 
     // Stored in a file of its own: the default location needs an
@@ -160,6 +199,16 @@ ApplicationWindow {
                 text: qsTr("&New Note")
                 shortcut: StandardKey.New
                 onTriggered: window.newNote()
+            }
+            MenuSeparator {}
+            Action {
+                text: qsTr("&Import Notes…")
+                onTriggered: importDialog.open()
+            }
+            Action {
+                text: qsTr("&Export Notes…")
+                enabled: notesModel.count > 0
+                onTriggered: window.exportNotes()
             }
             MenuSeparator {}
             Action {
@@ -251,7 +300,7 @@ ApplicationWindow {
 
                     Label {
                         Layout.fillWidth: true
-                        text: notesModel.count === 1 ? qsTr("1 note") : qsTr("%1 notes").arg(notesModel.count)
+                        text: window.noteCount(notesModel.count)
                         opacity: 0.7
                     }
                     ToolButton {
@@ -452,6 +501,34 @@ ApplicationWindow {
             text: qsTr("Delete Note")
             onTriggered: window.requestDelete(noteMenu.noteId)
         }
+    }
+
+    FileDialog {
+        id: exportDialog
+        title: qsTr("Export Notes")
+        fileMode: FileDialog.SaveFile
+        nameFilters: [qsTr("Zip files (*.zip)")]
+        defaultSuffix: "zip"
+        currentFolder: StandardPaths.writableLocation(StandardPaths.DocumentsLocation)
+        onAccepted: {
+            const error = notesModel.exportNotes(selectedFile)
+            if (error)
+                window.showMessage(qsTr("Export Failed"), error)
+        }
+    }
+
+    FileDialog {
+        id: importDialog
+        title: qsTr("Import Notes")
+        fileMode: FileDialog.OpenFile
+        nameFilters: [qsTr("Zip files (*.zip)")]
+        currentFolder: StandardPaths.writableLocation(StandardPaths.DocumentsLocation)
+        onAccepted: window.importNotes(selectedFile)
+    }
+
+    MessageDialog {
+        id: messageDialog
+        buttons: MessageDialog.Ok
     }
 
     Dialog {

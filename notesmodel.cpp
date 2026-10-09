@@ -1,13 +1,18 @@
 #include "notesmodel.h"
 
+#include <QBuffer>
 #include <QCoreApplication>
 #include <QFile>
 #include <QJsonArray>
 #include <QJsonDocument>
+#include <QJsonObject>
+#include <QRegularExpression>
 #include <QSaveFile>
 #include <QStandardPaths>
 #include <QTextDocument>
 #include <QUuid>
+#include <QtCore/private/qzipreader_p.h>
+#include <QtCore/private/qzipwriter_p.h>
 
 #include <algorithm>
 
@@ -38,6 +43,50 @@ QString markdownToPlainText(const QString &markdown)
     QTextDocument doc;
     doc.setMarkdown(markdown);
     return doc.toPlainText();
+}
+
+// The name of the file in an exported zip that lists its notes.
+constexpr QLatin1StringView manifestName("manifest.json");
+
+// A file name for a note titled `title` in an exported zip, made unique among
+// `used` (lowercase names) by adding a number. Names are compared ignoring
+// case, as the file systems on Windows and macOS do.
+QString archiveFileName(const QString &title, QSet<QString> &used)
+{
+    // Characters Windows doesn't allow in file names, which include /.
+    static const QRegularExpression invalid(QStringLiteral(R"([\\/:*?"<>|\x00-\x1f])"));
+    static const QRegularExpression reserved(QStringLiteral("^(con|prn|aux|nul|com\\d|lpt\\d)$"),
+                                             QRegularExpression::CaseInsensitiveOption);
+
+    QString base = QString(title).replace(invalid, QStringLiteral("_"));
+    if (base.size() > 80) {
+        base.truncate(80);
+        if (base.back().isHighSurrogate())
+            base.chop(1);
+    }
+    // Windows drops dots and spaces at the end of a name, and a dot at the
+    // start hides the file elsewhere.
+    while (base.startsWith(u'.') || base.startsWith(u' '))
+        base.remove(0, 1);
+    while (base.endsWith(u'.') || base.endsWith(u' '))
+        base.chop(1);
+    if (base.isEmpty() || reserved.match(base).hasMatch())
+        base.prepend(QStringLiteral("Note "));
+
+    QString name = base + QStringLiteral(".md");
+    for (int n = 2; used.contains(name.toLower()); ++n)
+        name = QStringLiteral("%1 %2.md").arg(base).arg(n);
+    used.insert(name.toLower());
+    return name;
+}
+
+// Whether a zip entry is a note: a .md file that isn't one of the hidden files
+// macOS's Archive Utility adds, e.g. __MACOSX/._Note.md.
+bool isNoteEntry(const QZipReader::FileInfo &entry)
+{
+    return entry.isFile && entry.filePath.endsWith(QStringLiteral(".md"), Qt::CaseInsensitive)
+            && !entry.filePath.startsWith(QStringLiteral("__MACOSX/"))
+            && !QFileInfo(entry.filePath).fileName().startsWith(u'.');
 }
 
 } // namespace
@@ -185,10 +234,7 @@ void NotesModel::setText(const QString &id, const QString &text)
 QString NotesModel::title(const QString &id) const
 {
     const int row = indexOf(id);
-    if (row < 0)
-        return {};
-    const QStringList lines = leadingLines(m_notes.at(row).plainText, 1);
-    return lines.isEmpty() ? tr("New Note") : lines.first();
+    return row < 0 ? QString() : titleOf(m_notes.at(row));
 }
 
 int NotesModel::indexOf(const QString &id) const
@@ -226,6 +272,135 @@ void NotesModel::flush()
             save(m_notes.at(row));
     }
     m_dirty.clear();
+}
+
+QString NotesModel::exportNotes(const QUrl &file) const
+{
+    // The zip is built in memory: QZipWriter closes its device when it's
+    // done, which QSaveFile doesn't allow.
+    QBuffer buffer;
+    buffer.open(QIODevice::WriteOnly);
+    QZipWriter zip(&buffer);
+    QJsonArray manifest;
+    QSet<QString> used;
+    for (const Note &note : m_notes) {
+        const QString name = archiveFileName(titleOf(note), used);
+        zip.addFile(name, note.text.toUtf8());
+        // QZipWriter dates every file with the current time, so the
+        // modification time is kept here.
+        manifest.append(QJsonObject{
+                { QStringLiteral("file"), name },
+                { QStringLiteral("id"), note.id },
+                { QStringLiteral("modified"), note.modified.toUTC().toString(Qt::ISODateWithMs) },
+                { QStringLiteral("pinned"), note.pinned },
+        });
+    }
+    const QJsonObject root{
+        { QStringLiteral("version"), 1 },
+        { QStringLiteral("notes"), manifest },
+    };
+    zip.addFile(manifestName, QJsonDocument(root).toJson());
+    zip.close();
+    if (zip.status() != QZipWriter::NoError)
+        return tr("The zip file couldn't be created.");
+
+    QSaveFile out(file.toLocalFile());
+    if (!out.open(QIODevice::WriteOnly) || out.write(buffer.data()) < 0 || !out.commit())
+        return out.errorString();
+    return {};
+}
+
+QVariantMap NotesModel::importNotes(const QUrl &file)
+{
+    const QString path = file.toLocalFile();
+    const QString fileName = QFileInfo(path).fileName();
+    QZipReader zip(path);
+    if (!zip.isReadable())
+        return { { QStringLiteral("error"), tr("“%1” couldn't be opened.").arg(fileName) } };
+
+    // Maps file names in the zip to their manifest entries.
+    QHash<QString, QJsonObject> manifest;
+    const QJsonObject root = QJsonDocument::fromJson(zip.fileData(manifestName)).object();
+    for (const QJsonValue &value : root.value(QStringLiteral("notes")).toArray()) {
+        const QJsonObject entry = value.toObject();
+        manifest.insert(entry.value(QStringLiteral("file")).toString(), entry);
+    }
+
+    // A file that isn't a zip reads as one with no files.
+    QList<Note> imported;
+    const QList<QZipReader::FileInfo> entries = zip.fileInfoList();
+    for (const QZipReader::FileInfo &entry : entries) {
+        if (!isNoteEntry(entry))
+            continue;
+        const QJsonObject info = manifest.value(entry.filePath);
+        Note note;
+        // The id is used as a file name, so only a UUID is accepted.
+        const QUuid id = QUuid::fromString(info.value(QStringLiteral("id")).toString());
+        note.id = (id.isNull() ? QUuid::createUuid() : id).toString(QUuid::WithoutBraces);
+        note.text = QString::fromUtf8(zip.fileData(entry.filePath));
+        note.plainText = markdownToPlainText(note.text);
+        note.modified = QDateTime::fromString(info.value(QStringLiteral("modified")).toString(),
+                                              Qt::ISODateWithMs);
+        if (!note.modified.isValid())
+            note.modified = entry.lastModified.isValid() ? entry.lastModified
+                                                         : QDateTime::currentDateTime();
+        note.pinned = info.value(QStringLiteral("pinned")).toBool();
+        imported.append(note);
+    }
+    if (imported.isEmpty())
+        return { { QStringLiteral("error"), tr("No notes were found in “%1”.").arg(fileName) } };
+
+    int added = 0;
+    int updated = 0;
+    int skipped = 0;
+    bool pinnedChanged = false;
+    QStringList replaced;
+    beginResetModel();
+    for (const Note &note : std::as_const(imported)) {
+        const int row = indexOf(note.id);
+        if (row < 0) {
+            m_notes.append(note);
+            pinnedChanged |= note.pinned;
+            ++added;
+        } else {
+            Note &existing = m_notes[row];
+            if (note.modified <= existing.modified || note.text == existing.text) {
+                ++skipped;
+                continue;
+            }
+            pinnedChanged |= note.pinned != existing.pinned;
+            existing = note;
+            // The imported text is saved now, replacing any unsaved edit.
+            m_dirty.remove(note.id);
+            replaced.append(note.id);
+            ++updated;
+        }
+        if (save(note))
+            keepModifiedTime(note);
+    }
+    std::sort(m_notes.begin(), m_notes.end(), &NotesModel::comesBefore);
+    endResetModel();
+
+    if (added > 0)
+        emit countChanged();
+    if (pinnedChanged) {
+        savePinned();
+        emit pinnedIdsChanged();
+    }
+    for (const QString &id : std::as_const(replaced))
+        emit noteReplaced(id);
+
+    return {
+        { QStringLiteral("added"), added },
+        { QStringLiteral("updated"), updated },
+        { QStringLiteral("skipped"), skipped },
+    };
+}
+
+QString NotesModel::titleOf(const Note &note)
+{
+    const QStringList lines = leadingLines(note.plainText, 1);
+    return lines.isEmpty() ? tr("New Note") : lines.first();
 }
 
 bool NotesModel::comesBefore(const Note &a, const Note &b)
@@ -314,13 +489,19 @@ void NotesModel::migrate(const QFileInfo &info)
     const Note note{ info.completeBaseName(), doc.toMarkdown(), QString(), info.lastModified() };
     if (!save(note))
         return;
-    QFile saved(filePath(note.id));
-    if (!saved.open(QIODevice::ReadWrite)
-        || !saved.setFileTime(note.modified, QFileDevice::FileModificationTime))
-        qWarning("Could not keep modification time of note %s", qPrintable(note.id));
-    saved.close();
+    keepModifiedTime(note);
     if (!file.remove())
         qWarning("Could not remove migrated note file %s", qPrintable(file.fileName()));
+}
+
+// Sets the modification time of the note's file to the note's, which is
+// where load() gets it from.
+void NotesModel::keepModifiedTime(const Note &note) const
+{
+    QFile file(filePath(note.id));
+    if (!file.open(QIODevice::ReadWrite)
+        || !file.setFileTime(note.modified, QFileDevice::FileModificationTime))
+        qWarning("Could not keep modification time of note %s", qPrintable(note.id));
 }
 
 QSet<QString> NotesModel::loadPinned() const
