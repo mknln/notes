@@ -71,6 +71,14 @@ ApplicationWindow {
         noteList.positionViewAtIndex(row, ListView.Contain)
     }
 
+    // Zooms the editor's text by `step`, e.g. 0.1 for 10% bigger, within the
+    // zoom slider's range. Rounded to the slider's steps, so repeated steps
+    // don't drift.
+    function zoomBy(step) {
+        const zoom = Math.round((settings.zoom + step) * 10) / 10
+        settings.zoom = Math.max(zoomSlider.from, Math.min(zoomSlider.to, zoom))
+    }
+
     function isPinned(id) {
         return notesModel.pinnedIds.includes(id)
     }
@@ -149,6 +157,8 @@ ApplicationWindow {
         id: settings
         location: StandardPaths.writableLocation(StandardPaths.AppConfigLocation) + "/settings.ini"
         property bool use24HourTime: false
+        // Of the editor's text, where 1 is the system font's size.
+        property real zoom: 1
     }
 
     TextFormatter {
@@ -262,6 +272,24 @@ ApplicationWindow {
             }
         }
         Menu {
+            title: qsTr("&View")
+            Action {
+                text: qsTr("Zoom &In")
+                shortcut: StandardKey.ZoomIn
+                onTriggered: window.zoomBy(0.1)
+            }
+            Action {
+                text: qsTr("Zoom &Out")
+                shortcut: StandardKey.ZoomOut
+                onTriggered: window.zoomBy(-0.1)
+            }
+            Action {
+                text: qsTr("&Actual Size")
+                enabled: settings.zoom !== 1
+                onTriggered: settings.zoom = 1
+            }
+        }
+        Menu {
             title: qsTr("F&ormat")
             MenuItem { action: boldAction }
             MenuItem { action: italicAction }
@@ -316,6 +344,66 @@ ApplicationWindow {
                 text: qsTr("&Keyboard Shortcuts")
                 shortcut: "Ctrl+/"
                 onTriggered: shortcutsDialog.open()
+            }
+        }
+    }
+
+    // The status bar, below the note list and the editor. Like the formatting
+    // toolbar, its controls don't take focus.
+    footer: ToolBar {
+        position: ToolBar.Footer
+
+        RowLayout {
+            anchors.fill: parent
+            anchors.rightMargin: 8
+            spacing: 2
+
+            Item {
+                Layout.fillWidth: true
+            }
+            ToolButton {
+                text: "−"
+                focusPolicy: Qt.NoFocus
+                autoRepeat: true
+                enabled: settings.zoom > zoomSlider.from
+                ToolTip.visible: hovered
+                ToolTip.text: qsTr("Zoom out")
+                onClicked: window.zoomBy(-0.1)
+            }
+            Slider {
+                id: zoomSlider
+                Layout.preferredWidth: 140
+                from: 0.5
+                to: 3
+                stepSize: 0.1
+                snapMode: Slider.SnapAlways
+                focusPolicy: Qt.NoFocus
+                value: settings.zoom
+                onMoved: settings.zoom = Math.round(value * 10) / 10
+            }
+            ToolButton {
+                text: "+"
+                focusPolicy: Qt.NoFocus
+                autoRepeat: true
+                enabled: settings.zoom < zoomSlider.to
+                ToolTip.visible: hovered
+                ToolTip.text: qsTr("Zoom in")
+                onClicked: window.zoomBy(0.1)
+            }
+            ToolButton {
+                // Wide enough for any zoom, so the slider doesn't
+                // move as the text changes.
+                Layout.preferredWidth: zoomWidth.width + leftPadding + rightPadding
+                text: qsTr("%1%").arg(Math.round(settings.zoom * 100))
+                focusPolicy: Qt.NoFocus
+                ToolTip.visible: hovered
+                ToolTip.text: qsTr("Reset to 100%")
+                onClicked: settings.zoom = 1
+
+                TextMetrics {
+                    id: zoomWidth
+                    text: qsTr("%1%").arg(300)
+                }
             }
         }
     }
@@ -501,6 +589,8 @@ ApplicationWindow {
                     enabled: window.currentId !== ""
                     textFormat: TextEdit.MarkdownText
                     wrapMode: TextArea.Wrap
+                    // Headings are sized relative to this, so they zoom too.
+                    font.pointSize: window.font.pointSize * settings.zoom
                     padding: 16
                     // An empty note can still have formatting, such as a list
                     // bullet, which the placeholder would overlap. The title
@@ -522,8 +612,25 @@ ApplicationWindow {
                                           event.modifiers & Qt.ShiftModifier)
                         event.accepted = true
                     }
+
+                    // Ctrl+wheel zooms a step per notch of a mouse wheel. A
+                    // touchpad scrolls in smaller amounts, which add up.
+                    WheelHandler {
+                        property real notches: 0
+                        target: null
+                        acceptedModifiers: Qt.ControlModifier
+                        onWheel: event => {
+                            notches += event.angleDelta.y / 120
+                            const steps = Math.trunc(notches)
+                            if (steps !== 0) {
+                                notches -= steps
+                                window.zoomBy(steps * 0.1)
+                            }
+                        }
+                    }
                 }
             }
+
         }
     }
 
@@ -568,6 +675,13 @@ ApplicationWindow {
     MessageDialog {
         id: messageDialog
         buttons: MessageDialog.Ok
+    }
+
+    // Ctrl++ needs Shift on many keyboards, so Ctrl+= zooms in too, as in
+    // most apps.
+    Shortcut {
+        sequence: "Ctrl+="
+        onActivated: window.zoomBy(0.1)
     }
 
     ShortcutsDialog {
