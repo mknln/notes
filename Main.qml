@@ -13,9 +13,7 @@ ApplicationWindow {
     // it to the top of the list.
     property string currentId: notesModel.idAt(0)
 
-    width: 1100
-    height: 700
-    visible: true
+    // The window is sized and shown in Component.onCompleted.
     title: qsTr("Notes")
 
     function newNote() {
@@ -126,8 +124,15 @@ ApplicationWindow {
 
     onCurrentIdChanged: if (ready) loadNote()
     Component.onCompleted: {
+        // A share of the screen, which comes to about 1100x700 on a 1920x1080
+        // screen, so the window looks the same size on screens of any
+        // resolution. It's set here rather than bound to the screen's size, so
+        // moving the window to another screen doesn't resize it.
+        width = Math.round(Screen.width * 0.57)
+        height = Math.round(Screen.height * 0.65)
         ready = true
         loadNote()
+        visible = true
     }
 
     NotesModel {
