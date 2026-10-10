@@ -343,7 +343,9 @@ ApplicationWindow {
                     }
                     ToolButton {
                         text: "+"
-                        font.pixelSize: 20
+                        // Relative to the system font, so it scales with the
+                        // rest of the interface.
+                        font.pointSize: window.font.pointSize * 1.35
                         ToolTip.visible: hovered
                         ToolTip.text: qsTr("New note")
                         onClicked: window.newNote()
@@ -499,7 +501,6 @@ ApplicationWindow {
                     enabled: window.currentId !== ""
                     textFormat: TextEdit.MarkdownText
                     wrapMode: TextArea.Wrap
-                    font.pixelSize: 15
                     padding: 16
                     // An empty note can still have formatting, such as a list
                     // bullet, which the placeholder would overlap. The title
