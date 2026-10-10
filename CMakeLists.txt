@@ -16,6 +16,7 @@ qt_add_qml_module(qtnotes
     QML_FILES
         Main.qml
         NoteListDelegate.qml
+        ShortcutsDialog.qml
     SOURCES
         notesmodel.h notesmodel.cpp
         textformatter.h textformatter.cpp

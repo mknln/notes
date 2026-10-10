@@ -63,6 +63,16 @@ ApplicationWindow {
         showMessage(qsTr("Import Complete"), lines.join("\n"))
     }
 
+    // Moves to the note `step` rows away from the current one in the list, if
+    // there is one, scrolling the list to show it.
+    function selectAdjacentNote(step) {
+        const row = notesModel.indexOf(currentId) + step
+        if (row < 0 || row >= notesModel.count)
+            return
+        currentId = notesModel.idAt(row)
+        noteList.positionViewAtIndex(row, ListView.Contain)
+    }
+
     function isPinned(id) {
         return notesModel.pinnedIds.includes(id)
     }
@@ -193,6 +203,7 @@ ApplicationWindow {
     }
 
     menuBar: MenuBar {
+        id: appMenuBar
         Menu {
             title: qsTr("&File")
             Action {
@@ -229,6 +240,20 @@ ApplicationWindow {
                 text: qsTr("&Delete Note")
                 enabled: window.currentId !== ""
                 onTriggered: window.requestDelete(window.currentId)
+            }
+            MenuSeparator {}
+            // Left to the note list while it has focus.
+            Action {
+                text: qsTr("Pre&vious Note")
+                shortcut: "Ctrl+PgUp"
+                enabled: !noteList.activeFocus
+                onTriggered: window.selectAdjacentNote(-1)
+            }
+            Action {
+                text: qsTr("Ne&xt Note")
+                shortcut: "Ctrl+PgDown"
+                enabled: !noteList.activeFocus
+                onTriggered: window.selectAdjacentNote(1)
             }
         }
         Menu {
@@ -278,6 +303,14 @@ ApplicationWindow {
                 checkable: true
                 checked: settings.use24HourTime
                 onTriggered: settings.use24HourTime = checked
+            }
+        }
+        Menu {
+            title: qsTr("&Help")
+            Action {
+                text: qsTr("&Keyboard Shortcuts")
+                shortcut: "Ctrl+/"
+                onTriggered: shortcutsDialog.open()
             }
         }
     }
@@ -529,6 +562,12 @@ ApplicationWindow {
     MessageDialog {
         id: messageDialog
         buttons: MessageDialog.Ok
+    }
+
+    ShortcutsDialog {
+        id: shortcutsDialog
+        menuBar: appMenuBar
+        anchors.centerIn: Overlay.overlay
     }
 
     Dialog {
