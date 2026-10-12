@@ -123,6 +123,9 @@ public:
     // prepareLoadedText() turns back into an empty line. Qt also writes an
     // empty heading without the line break after it, joining it to the next
     // line, so an empty heading is written as one of those lines too.
+    //
+    // Qt's writer also leaves some characters unescaped, such as ~ and _, so
+    // literal text could load back as formatting. Those are escaped here.
     Q_INVOKABLE QString markdown() const;
 
 signals:

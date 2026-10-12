@@ -1,5 +1,6 @@
 #include "textformatter.h"
 
+#include <QFontInfo>
 #include <QRegularExpression>
 #include <QScopedPointer>
 #include <QTextBlock>
@@ -140,6 +141,100 @@ QString fixListIndentation(const QTextDocument *doc, const QString &markdown)
             line.remove(0, qMin(qsizetype(-shift), indent));
     }
     return item == levels.size() ? lines.join(u'\n') : markdown;
+}
+
+// Characters that are written as backslash escapes wherever they're literal
+// text, not code. Qt's Markdown writer escapes some characters only in some
+// places, so they could be read back as formatting: it doesn't escape ~ or _
+// at all, so "~/notes and ~/docs" would come back with "/notes and " struck
+// through, and it only escapes the first * of "**a**". Escaping these
+// everywhere covers emphasis, strikethrough, code spans, HTML, links and
+// images, entities and block quotes.
+constexpr QStringView escapedChars = u"~_*`<>[&";
+
+// While the document is written, each of escapedChars in its text is
+// replaced with a private-use character, which the writer leaves alone, and
+// the placeholders are then replaced with escapes.
+constexpr char16_t firstPlaceholder = 0xE000;
+
+// Whether text with `format` is written as a code span, where escapes would
+// be literal. Matches the writer's test.
+bool isCode(const QTextCharFormat &format)
+{
+    return format.fontFixedPitch() || QFontInfo(format.font()).fixedPitch();
+}
+
+// Whether `block` is written as a code block, where escapes would be literal.
+bool isCode(const QTextBlock &block)
+{
+    const QTextBlockFormat format = block.blockFormat();
+    return format.nonBreakableLines() || format.hasProperty(QTextFormat::BlockCodeFence)
+            || format.hasProperty(QTextFormat::BlockCodeLanguage);
+}
+
+// Whether `doc` has text that needs escapes written, and can have them: if
+// it already has any of the placeholder characters, they would turn into
+// escapes too.
+bool needsEscapes(const QTextDocument *doc)
+{
+    const QString text = doc->toPlainText();
+    bool found = false;
+    for (const QChar ch : text) {
+        if (ch.unicode() >= firstPlaceholder && ch.unicode() < firstPlaceholder + escapedChars.size())
+            return false;
+        found = found || escapedChars.contains(ch);
+    }
+    return found;
+}
+
+// Replaces each of escapedChars in the text of `doc`, other than in code,
+// with its placeholder.
+void insertPlaceholders(QTextDocument *doc)
+{
+    struct Replacement
+    {
+        int position;
+        QChar placeholder;
+        QTextCharFormat format;
+    };
+    // Collected first, because replacing text can merge the fragments being
+    // walked through.
+    QList<Replacement> replacements;
+    for (QTextBlock block = doc->begin(); block.isValid(); block = block.next()) {
+        if (isCode(block))
+            continue;
+        for (auto it = block.begin(); !it.atEnd(); ++it) {
+            const QTextFragment fragment = it.fragment();
+            if (isCode(fragment.charFormat()))
+                continue;
+            const QString text = fragment.text();
+            for (qsizetype i = 0; i < text.size(); ++i) {
+                const qsizetype index = escapedChars.indexOf(text.at(i));
+                if (index >= 0)
+                    replacements.append({ fragment.position() + int(i),
+                                          QChar(char16_t(firstPlaceholder + index)),
+                                          fragment.charFormat() });
+            }
+        }
+    }
+
+    QTextCursor c(doc);
+    for (const Replacement &replacement : std::as_const(replacements)) {
+        c.setPosition(replacement.position);
+        c.setPosition(replacement.position + 1, QTextCursor::KeepAnchor);
+        c.insertText(replacement.placeholder, replacement.format);
+    }
+}
+
+// Replaces the placeholders from insertPlaceholders() in `markdown` with
+// escapes.
+QString replacePlaceholders(QString markdown)
+{
+    for (qsizetype i = 0; i < escapedChars.size(); ++i) {
+        const QChar escaped[] = { u'\\', escapedChars.at(i) };
+        markdown.replace(QChar(char16_t(firstPlaceholder + i)), QString(escaped, 2));
+    }
+    return markdown;
 }
 
 // The character format of a heading at `level`, or of body text for 0.
@@ -606,7 +701,8 @@ QString TextFormatter::markdown() const
             lastText = block.blockNumber();
     }
 
-    // Empty lines are changed in a copy, so the editor isn't affected.
+    // Empty lines and escaped characters are changed in a copy, so the editor
+    // isn't affected.
     QScopedPointer<QTextDocument> copy;
     for (QTextBlock block = doc->begin(); block.isValid(); block = block.next()) {
         if (!isEmptyLine(block))
@@ -624,9 +720,18 @@ QString TextFormatter::markdown() const
         if (keep)
             c.insertText(QString(QChar::Nbsp));
     }
+    const bool escape = needsEscapes(doc);
+    if (escape) {
+        if (!copy)
+            copy.reset(doc->clone());
+        insertPlaceholders(copy.data());
+    }
     if (copy)
         doc = copy.data();
-    return fixListIndentation(doc, doc->toMarkdown());
+    QString markdown = doc->toMarkdown();
+    if (escape)
+        markdown = replacePlaceholders(markdown);
+    return fixListIndentation(doc, markdown);
 }
 
 QTextDocument *TextFormatter::textDocument() const
