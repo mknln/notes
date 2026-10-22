@@ -1,11 +1,14 @@
 #include "textformatter.h"
 
 #include <QFontInfo>
+#include <QGuiApplication>
+#include <QPalette>
 #include <QRegularExpression>
 #include <QScopedPointer>
 #include <QTextBlock>
 #include <QTextDocument>
 #include <QTextList>
+#include <QUrl>
 
 namespace {
 
@@ -237,6 +240,79 @@ QString replacePlaceholders(QString markdown)
     return markdown;
 }
 
+// The bold, italic and strikethrough formats, which are written as **, * and
+// ~~ around the text.
+struct Emphasis
+{
+    bool (*has)(const QTextCharFormat &format);
+    void (*clear)(QTextCharFormat &format);
+};
+const Emphasis emphases[] = {
+    { [](const QTextCharFormat &f) { return f.fontWeight() >= QFont::Bold; },
+      [](QTextCharFormat &f) { f.setFontWeight(QFont::Normal); } },
+    { [](const QTextCharFormat &f) { return f.fontItalic(); },
+      [](QTextCharFormat &f) { f.setFontItalic(false); } },
+    { [](const QTextCharFormat &f) { return f.fontStrikeOut(); },
+      [](QTextCharFormat &f) { f.setFontStrikeOut(false); } },
+};
+
+// The positions in `doc` of whitespace at the start or end of bold, italic or
+// struck-out text, and the format each should have instead, without that
+// emphasis. In Markdown, ** and the like don't count as emphasis next to the
+// whitespace inside them, so Qt's writer would write "**Note: **Text", which
+// reads back as literal asterisks. Without it, that's written as
+// "**Note:** Text". The whitespace loses its emphasis, which only shows for
+// strikethrough. Headings, where the writer doesn't write emphasis, and code
+// are left alone.
+QList<QPair<int, QTextCharFormat>> emphasisEdgeSpaces(const QTextDocument *doc)
+{
+    QList<QPair<int, QTextCharFormat>> changes;
+    for (QTextBlock block = doc->begin(); block.isValid(); block = block.next()) {
+        if (block.blockFormat().headingLevel() > 0 || isCode(block))
+            continue;
+        const QString text = block.text();
+        // Of each character, with code left out by giving it no format.
+        QList<QTextCharFormat> formats;
+        for (auto it = block.begin(); !it.atEnd(); ++it) {
+            const QTextFragment fragment = it.fragment();
+            const QTextCharFormat format = isCode(fragment.charFormat()) ? QTextCharFormat()
+                                                                         : fragment.charFormat();
+            formats.insert(formats.size(), fragment.length(), format);
+        }
+
+        QList<QTextCharFormat> fixed = formats;
+        for (const Emphasis &emphasis : emphases) {
+            for (qsizetype start = 0; start < formats.size();) {
+                if (!emphasis.has(formats.at(start))) {
+                    ++start;
+                    continue;
+                }
+                qsizetype end = start;
+                while (end < formats.size() && emphasis.has(formats.at(end)))
+                    ++end;
+                // Leading and trailing whitespace, or all of it if it's only
+                // whitespace.
+                qsizetype first = start;
+                while (first < end && text.at(first).isSpace())
+                    ++first;
+                qsizetype last = end;
+                while (last > first && text.at(last - 1).isSpace())
+                    --last;
+                for (qsizetype i = start; i < end; ++i) {
+                    if (i < first || i >= last)
+                        emphasis.clear(fixed[i]);
+                }
+                start = end;
+            }
+        }
+        for (qsizetype i = 0; i < formats.size(); ++i) {
+            if (fixed.at(i) != formats.at(i))
+                changes.append({ block.position() + int(i), fixed.at(i) });
+        }
+    }
+    return changes;
+}
+
 // The character format of a heading at `level`, or of body text for 0.
 // Matches the format QTextDocument::setMarkdown() gives headings, so a heading
 // looks the same before and after the note is reloaded. The Markdown writer
@@ -307,6 +383,133 @@ void applyTitleFormat(QTextDocument *doc, int level)
         c.setBlockFormat(format);
     }
     applyHeading(c, level);
+}
+
+// If the text before the cursor in a paragraph is "*" or "-", or "1.",
+// replaces it with a bulleted or numbered list. Returns whether it did.
+bool startList(QTextCursor c)
+{
+    if (c.currentList() || c.blockFormat().headingLevel() > 0)
+        return false;
+
+    const QTextBlock block = c.block();
+    const QString marker = block.text().left(c.positionInBlock());
+    QTextListFormat::Style style;
+    if (marker == u"*" || marker == u"-")
+        style = QTextListFormat::ListDisc;
+    else if (marker == u"1.")
+        style = QTextListFormat::ListDecimal;
+    else
+        return false;
+
+    // The space is typed as its own undo step, so undoing the list leaves the
+    // text as typed.
+    c.insertText(QStringLiteral(" "));
+    c.beginEditBlock();
+    c.setPosition(block.position());
+    c.setPosition(block.position() + marker.size() + 1, QTextCursor::KeepAnchor);
+    c.removeSelectedText();
+    c.createList(style);
+    c.endEditBlock();
+    return true;
+}
+
+// A web or email address in a block's text, and the URL it links to.
+struct LinkAddress
+{
+    int start = 0; // In the block
+    int length = 0;
+    QString href;
+};
+
+// The address that the word ending at `end` in `text` is, if it is one: a web
+// address starting with http://, https:// or www., or an email address, not
+// counting punctuation around it, such as the brackets and full stop in "(see
+// https://example.com).". A closing bracket at the end is part of a web
+// address if the address has an opening one to match, as in
+// "https://en.wikipedia.org/wiki/Qt_(software)". Returns an empty href if
+// there isn't one.
+LinkAddress addressBefore(const QString &text, int end)
+{
+    int start = end;
+    while (start > 0 && !text.at(start - 1).isSpace())
+        --start;
+    while (start < end && !text.at(start).isLetterOrNumber())
+        ++start;
+
+    const auto isTrailingPunctuation = [](QChar ch, QStringView address) {
+        if (ch == u')')
+            return address.count(u'(') < address.count(u')');
+        return QStringView(u".,:;!?'\"*_~]>").contains(ch);
+    };
+    while (end > start
+           && isTrailingPunctuation(text.at(end - 1), QStringView(text).mid(start, end - start)))
+        --end;
+
+    const QString address = text.mid(start, end - start);
+    // Only the usual characters, which can't break the link when it's written
+    // as Markdown, and a domain that ends in a top-level domain.
+    static const QRegularExpression email(
+            QStringLiteral("^[A-Za-z0-9._%+-]+@(?:[A-Za-z0-9-]+\\.)+[A-Za-z]{2,}$"));
+    if (email.match(address).hasMatch())
+        return { start, end - start, QStringLiteral("mailto:") + address };
+
+    QString href;
+    if (address.startsWith(u"http://", Qt::CaseInsensitive)
+        || address.startsWith(u"https://", Qt::CaseInsensitive)) {
+        href = address;
+    } else if (address.startsWith(u"www.", Qt::CaseInsensitive) && address.size() > 4) {
+        href = QStringLiteral("https://") + address;
+    }
+    // Strict mode rejects characters that aren't allowed in URLs, such as
+    // < and >. Square brackets and unmatched round ones are allowed, but would
+    // end the link's text or URL early when it's written as Markdown.
+    const QUrl url(href, QUrl::StrictMode);
+    if (!url.isValid() || url.host().isEmpty() || href.contains(u'[') || href.contains(u']'))
+        return {};
+    int depth = 0;
+    for (const QChar ch : href) {
+        if (ch == u'(')
+            ++depth;
+        else if (ch == u')' && --depth < 0)
+            return {};
+    }
+    if (depth != 0)
+        return {};
+    return { start, end - start, href };
+}
+
+// If the word before the cursor is a web or email address, types a space and
+// makes the address a link to it. Returns whether it did. Undoing that leaves
+// the address as typed, like startList(). An address that's already part of a
+// link, e.g. because it was typed at the end of one, is left alone.
+bool linkAddress(QTextCursor c)
+{
+    const QTextBlock block = c.block();
+    const LinkAddress address = addressBefore(block.text(), c.positionInBlock());
+    if (address.href.isEmpty())
+        return false;
+    const int start = block.position() + address.start;
+    const int end = start + address.length;
+    for (auto it = block.begin(); !it.atEnd(); ++it) {
+        const QTextFragment fragment = it.fragment();
+        if (fragment.position() < end && fragment.position() + fragment.length() > start
+            && fragment.charFormat().isAnchor())
+            return false;
+    }
+
+    c.insertText(QStringLiteral(" "));
+    c.beginEditBlock();
+    c.setPosition(start);
+    c.setPosition(end, QTextCursor::KeepAnchor);
+    // The same format QTextDocument::setMarkdown() gives links.
+    QTextCharFormat format;
+    format.setAnchor(true);
+    format.setAnchorHref(address.href);
+    format.setForeground(QGuiApplication::palette().link());
+    c.mergeCharFormat(format);
+    c.endEditBlock();
+    return true;
 }
 
 } // namespace
@@ -582,30 +785,10 @@ bool TextFormatter::shiftListLevel(int delta)
 bool TextFormatter::handleSpace()
 {
     QTextCursor c = cursor();
-    if (c.isNull() || c.hasSelection() || c.currentList() || c.blockFormat().headingLevel() > 0)
+    if (c.isNull() || c.hasSelection())
         return false;
-
-    const QTextBlock block = c.block();
-    const QString marker = block.text().left(c.positionInBlock());
-    QTextListFormat::Style style;
-    if (marker == u"*" || marker == u"-")
-        style = QTextListFormat::ListDisc;
-    else if (marker == u"1.")
-        style = QTextListFormat::ListDecimal;
-    else
+    if (!startList(c) && !linkAddress(c))
         return false;
-
-    // The space is typed as its own undo step, so undoing the list leaves the
-    // text as typed.
-    c.insertText(QStringLiteral(" "));
-    c.beginEditBlock();
-    // qInfo() << "block position is" << block.position();
-    c.setPosition(block.position());
-    c.setPosition(block.position() + marker.size() + 1, QTextCursor::KeepAnchor);
-    c.removeSelectedText();
-    c.createList(style);
-    c.endEditBlock();
-
     emit formatChanged();
     return true;
 }
@@ -619,13 +802,22 @@ void TextFormatter::insertText(const QString &text)
 
 void TextFormatter::resetTypingFormat()
 {
-    const QTextCursor c = cursor();
-    if (c.isNull())
+    QTextCursor c = cursor();
+    if (c.isNull() || c.hasSelection())
         return;
-    // For a cursor with no selection, this is the format of the character
-    // before it, or after it at the start of a block.
-    m_pendingFormat = c.charFormat();
-    m_pendingPosition = c.position();
+    // A cursor only stops typing with the format it was given, and takes the
+    // format of the text at its position again, once it moves. Inserting a
+    // character at the editor's cursor moves it along, and removing the
+    // character moves it back. Setting a pending format instead wouldn't work
+    // on the title line: reformatting it makes the typed character's change
+    // look like something other than typing to onContentsChange().
+    QTextDocument *doc = textDocument();
+    const bool undoRedoEnabled = doc->isUndoRedoEnabled();
+    doc->setUndoRedoEnabled(false);
+    // In an empty block, the inserted character's format becomes the block's.
+    c.insertText(QStringLiteral(" "), c.charFormat());
+    c.deletePreviousChar();
+    doc->setUndoRedoEnabled(undoRedoEnabled);
     emit formatChanged();
 }
 
@@ -701,8 +893,8 @@ QString TextFormatter::markdown() const
             lastText = block.blockNumber();
     }
 
-    // Empty lines and escaped characters are changed in a copy, so the editor
-    // isn't affected.
+    // Empty lines, whitespace around emphasis and escaped characters are
+    // changed in a copy, so the editor isn't affected.
     QScopedPointer<QTextDocument> copy;
     for (QTextBlock block = doc->begin(); block.isValid(); block = block.next()) {
         if (!isEmptyLine(block))
@@ -719,6 +911,17 @@ QString TextFormatter::markdown() const
         c.setBlockFormat(format);
         if (keep)
             c.insertText(QString(QChar::Nbsp));
+    }
+    const auto edgeSpaces = emphasisEdgeSpaces(copy ? copy.data() : doc);
+    if (!edgeSpaces.isEmpty()) {
+        if (!copy)
+            copy.reset(doc->clone());
+        QTextCursor c(copy.data());
+        for (const auto &[position, format] : edgeSpaces) {
+            c.setPosition(position);
+            c.setPosition(position + 1, QTextCursor::KeepAnchor);
+            c.setCharFormat(format);
+        }
     }
     const bool escape = needsEscapes(doc);
     if (escape) {
