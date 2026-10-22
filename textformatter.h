@@ -92,7 +92,10 @@ public:
 
     // Call when Space is pressed. If the text before the cursor in a
     // paragraph is "*" or "-", or "1.", replaces it with a bulleted or
-    // numbered list and returns true. Undoing that gets back the typed text.
+    // numbered list and returns true. Otherwise, if the word before the
+    // cursor is a web address, such as https://example.com or
+    // www.example.com, or an email address, makes it a link and returns true.
+    // Undoing either gets back the typed text.
     Q_INVOKABLE bool handleSpace();
 
     // Replaces the selection with plain `text`, or inserts it at the cursor,
@@ -101,8 +104,10 @@ public:
     Q_INVOKABLE void insertText(const QString &text);
 
     // Call after replacing the editor's text. The editor keeps typing with the
-    // format it had at the cursor in the old text; this makes the next
-    // character typed use the new text's format at the cursor instead.
+    // format it had at the cursor in the old text, e.g. a link's; this makes
+    // it type with the new text's format at the cursor instead. It edits the
+    // text without adding to the undo history, so call it before anything
+    // that should be undoable.
     Q_INVOKABLE void resetTypingFormat();
 
     // Call after replacing the editor's text with Markdown from markdown():
@@ -146,8 +151,8 @@ private:
     int m_selectionStart = 0;
     int m_selectionEnd = 0;
     // Format for the next text typed at m_pendingPosition, set by toggling
-    // bold, italic or strikethrough with an empty selection or by
-    // resetTypingFormat(). Cleared when the cursor moves elsewhere.
+    // bold, italic or strikethrough with an empty selection, or by Return at
+    // the end of a heading. Cleared when the cursor moves elsewhere.
     QTextCharFormat m_pendingFormat;
     int m_pendingPosition = -1;
     int m_titleHeadingLevel = 0;

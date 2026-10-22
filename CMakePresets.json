@@ -2,65 +2,71 @@
   "version": 3,
   "configurePresets": [
     {
-      "name": "Qt-6.11.2-linux-g++-x86_64-debug",
-      "displayName": "Qt-6.11.2-linux-g++-x86_64 Debug",
-      "binaryDir": "${sourceDir}/builds/Qt-6.11.2-linux-g++-x86_64/debug",
+      "name": "Qt-6.12.0-linux-g++-x86_64-debug",
+      "displayName": "Qt-6.12.0-linux-g++-x86_64 Debug",
+      "binaryDir": "${sourceDir}/builds/Qt-6.12.0-linux-g++-x86_64/debug",
+      "generator": "Ninja",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_MAKE_PROGRAM": "/usr/bin/ninja",
         "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
         "QT_QML_GENERATE_QMLLS_INI": "ON",
         "CMAKE_CXX_FLAGS_DEBUG_INIT": "-DQT_QML_DEBUG -DQT_DECLARATIVE_DEBUG",
         "CMAKE_CXX_FLAGS_RELWITHDEBINFO_INIT": "-DQT_QML_DEBUG -DQT_DECLARATIVE_DEBUG",
-        "CMAKE_TOOLCHAIN_FILE": "/home/mpn/Qt6/6.11.2/gcc_64/lib/cmake/Qt6/qt.toolchain.cmake"
+        "CMAKE_TOOLCHAIN_FILE": "/home/mpn/Qt6/6.12.0/gcc_64/lib/cmake/Qt6/qt.toolchain.cmake"
       },
       "environment": {
-        "PATH": "/home/mpn/Qt6/6.11.2/gcc_64/bin;$penv{PATH}"
+        "PATH": "/home/mpn/Qt6/6.12.0/gcc_64/bin;$penv{PATH}"
       },
       "vendor": {
         "qt-cpp": {
-          "VSCODE_QT_QTPATHS_EXE": "/home/mpn/Qt6/6.11.2/gcc_64/bin/qmake"
+          "VSCODE_QT_QTPATHS_EXE": "/home/mpn/Qt6/6.12.0/gcc_64/bin/qmake"
         }
       }
     },
     {
-      "name": "Qt-6.11.2-linux-g++-x86_64-relwithdebinfo",
-      "displayName": "Qt-6.11.2-linux-g++-x86_64 RelWithDebInfo",
-      "binaryDir": "${sourceDir}/builds/Qt-6.11.2-linux-g++-x86_64/relwithdebinfo",
+      "name": "Qt-6.12.0-linux-g++-x86_64-relwithdebinfo",
+      "displayName": "Qt-6.12.0-linux-g++-x86_64 RelWithDebInfo",
+      "binaryDir": "${sourceDir}/builds/Qt-6.12.0-linux-g++-x86_64/relwithdebinfo",
+      "generator": "Ninja",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+        "CMAKE_MAKE_PROGRAM": "/usr/bin/ninja",
         "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
         "QT_QML_GENERATE_QMLLS_INI": "ON",
         "CMAKE_CXX_FLAGS_DEBUG_INIT": "-DQT_QML_DEBUG -DQT_DECLARATIVE_DEBUG",
         "CMAKE_CXX_FLAGS_RELWITHDEBINFO_INIT": "-DQT_QML_DEBUG -DQT_DECLARATIVE_DEBUG",
-        "CMAKE_TOOLCHAIN_FILE": "/home/mpn/Qt6/6.11.2/gcc_64/lib/cmake/Qt6/qt.toolchain.cmake"
+        "CMAKE_TOOLCHAIN_FILE": "/home/mpn/Qt6/6.12.0/gcc_64/lib/cmake/Qt6/qt.toolchain.cmake"
       },
       "environment": {
-        "PATH": "/home/mpn/Qt6/6.11.2/gcc_64/bin;$penv{PATH}"
+        "PATH": "/home/mpn/Qt6/6.12.0/gcc_64/bin;$penv{PATH}"
       },
       "vendor": {
         "qt-cpp": {
-          "VSCODE_QT_QTPATHS_EXE": "/home/mpn/Qt6/6.11.2/gcc_64/bin/qmake"
+          "VSCODE_QT_QTPATHS_EXE": "/home/mpn/Qt6/6.12.0/gcc_64/bin/qmake"
         }
       }
     },
     {
-      "name": "Qt-6.11.2-linux-g++-x86_64-release",
-      "displayName": "Qt-6.11.2-linux-g++-x86_64 Release",
-      "binaryDir": "${sourceDir}/builds/Qt-6.11.2-linux-g++-x86_64/release",
+      "name": "Qt-6.12.0-linux-g++-x86_64-release",
+      "displayName": "Qt-6.12.0-linux-g++-x86_64 Release",
+      "binaryDir": "${sourceDir}/builds/Qt-6.12.0-linux-g++-x86_64/release",
+      "generator": "Ninja",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release",
+        "CMAKE_MAKE_PROGRAM": "/usr/bin/ninja",
         "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
         "QT_QML_GENERATE_QMLLS_INI": "ON",
         "CMAKE_CXX_FLAGS_DEBUG_INIT": "-DQT_QML_DEBUG -DQT_DECLARATIVE_DEBUG",
         "CMAKE_CXX_FLAGS_RELWITHDEBINFO_INIT": "-DQT_QML_DEBUG -DQT_DECLARATIVE_DEBUG",
-        "CMAKE_TOOLCHAIN_FILE": "/home/mpn/Qt6/6.11.2/gcc_64/lib/cmake/Qt6/qt.toolchain.cmake"
+        "CMAKE_TOOLCHAIN_FILE": "/home/mpn/Qt6/6.12.0/gcc_64/lib/cmake/Qt6/qt.toolchain.cmake"
       },
       "environment": {
-        "PATH": "/home/mpn/Qt6/6.11.2/gcc_64/bin;$penv{PATH}"
+        "PATH": "/home/mpn/Qt6/6.12.0/gcc_64/bin;$penv{PATH}"
       },
       "vendor": {
         "qt-cpp": {
-          "VSCODE_QT_QTPATHS_EXE": "/home/mpn/Qt6/6.11.2/gcc_64/bin/qmake"
+          "VSCODE_QT_QTPATHS_EXE": "/home/mpn/Qt6/6.12.0/gcc_64/bin/qmake"
         }
       }
     }
