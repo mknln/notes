@@ -55,3 +55,18 @@ cmake --install build/release --prefix <folder>
 ```
 
 On Windows and macOS, this also copies the Qt libraries the app needs, so the installed app runs on machines without Qt. On Linux, it only installs the app, to use with the system's Qt; add `-DQTNOTES_DEPLOY_QT=ON` when configuring to bundle Qt there too.
+
+### Debian and Ubuntu package
+
+The `debian` folder builds a `.deb` package that uses the system's Qt. That needs Qt 6.8 or later, so it works on Debian 13 (trixie) and Ubuntu 25.04 or later, but not on Debian 12 or Ubuntu 24.04.
+
+From the repository's folder:
+
+```sh
+sudo apt install dpkg-dev
+sudo apt build-dep ./
+dpkg-buildpackage -us -uc -b
+sudo apt install ../qtnotes_*.deb
+```
+
+The package is written to the folder above the repository. To release a new version, add an entry to `debian/changelog` (e.g. with `dch -v 0.2.0` from the `devscripts` package) and change the version in `CMakeLists.txt` to match.

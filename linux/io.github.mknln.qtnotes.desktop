@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=QtNotes
+GenericName=Notes
+Comment=Take notes with simple formatting
+Exec=qtnotes
+Icon=accessories-text-editor
+Terminal=false
+Categories=Utility;TextEditor;Qt;
+Keywords=notes;markdown;

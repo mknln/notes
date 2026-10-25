@@ -1,0 +1,9 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: QtNotes
+Source: https://github.com/mknln/notes
+
+Files: *
+Copyright: 2026 Mike Nolan <me@mknln.com>
+# TODO: the project doesn't have a license yet. Replace this with the one
+# chosen, e.g. "GPL-3.0-or-later", and add its text below.
+License: UNKNOWN

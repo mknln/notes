@@ -1,0 +1,11 @@
+#!/usr/bin/make -f
+
+export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+
+%:
+	dh $@
+
+# Qt's project setup gives the installed app a library search path for a
+# copy of Qt next to it, which the package doesn't have: it uses the system's.
+override_dh_auto_configure:
+	dh_auto_configure -- -DCMAKE_SKIP_INSTALL_RPATH=ON

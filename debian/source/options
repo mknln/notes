@@ -1,0 +1,6 @@
+# Local build folders and settings, which aren't part of the source.
+tar-ignore = "build"
+tar-ignore = "builds"
+tar-ignore = "CMakeUserPresets.json"
+tar-ignore = ".vscode"
+tar-ignore = ".qmlls.ini"

@@ -6,3 +6,10 @@ builds/
 CMakeUserPresets.json
 # Qt Creator's per-developer project settings.
 CMakeLists.txt.user*
+# Debian package build output.
+obj-*/
+debian/.debhelper/
+debian/qtnotes/
+debian/debhelper-build-stamp
+debian/files
+debian/*.substvars

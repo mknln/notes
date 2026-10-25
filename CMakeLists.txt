@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.21)
-project(Notes LANGUAGES CXX)
+# Keep the version in step with debian/changelog.
+project(Notes VERSION 0.1.0 LANGUAGES CXX)
 
 # Qt is often installed somewhere CMake doesn't look, so this explains how to
 # point it there, rather than find_package()'s more general error.
@@ -12,9 +13,13 @@ if(NOT Qt6_FOUND)
         "README.md.")
 endif()
 
+find_package(Qt6 REQUIRED COMPONENTS Core Gui Quick QuickControls2)
 # CorePrivate is for QZipReader and QZipWriter, which Qt has no public
-# equivalent of.
-find_package(Qt6 REQUIRED COMPONENTS Core CorePrivate Gui Quick QuickControls2)
+# equivalent of. Qt 6.9 moved it into a package of its own; before that, Core
+# provides it.
+if(NOT TARGET Qt6::CorePrivate)
+    find_package(Qt6 REQUIRED COMPONENTS CorePrivate)
+endif()
 
 qt_standard_project_setup(REQUIRES 6.8)
 
@@ -58,6 +63,12 @@ install(TARGETS qtnotes
     BUNDLE DESTINATION .
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
+# Lists the app in Linux desktops' application menus.
+if(UNIX AND NOT APPLE)
+    install(FILES linux/io.github.mknln.qtnotes.desktop
+        DESTINATION ${CMAKE_INSTALL_DATADIR}/applications
+    )
+endif()
 
 # Copies the Qt libraries, plugins and QML modules the app needs next to it
 # when it's installed, so it runs on machines without Qt. Linux builds usually

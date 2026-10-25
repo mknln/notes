@@ -7,6 +7,9 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
     // Notes are stored under QStandardPaths::AppDataLocation, e.g. ~/.local/share/QtNotes
     app.setApplicationName(QStringLiteral("QtNotes"));
+    // Lets Linux desktops match the window to its .desktop file, for its name
+    // and icon, e.g. in the task bar.
+    app.setDesktopFileName(QStringLiteral("io.github.mknln.qtnotes"));
 
     // Works around a bug in Qt's GTK platform theme: looking up the fixed-width
     // font, which the Markdown importer does when notes are loaded, makes later
