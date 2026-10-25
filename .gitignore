@@ -1,3 +1,8 @@
 .vscode
 .qmlls.ini
+build/
 builds/
+# Per-developer presets, e.g. where Qt is installed.
+CMakeUserPresets.json
+# Qt Creator's per-developer project settings.
+CMakeLists.txt.user*
