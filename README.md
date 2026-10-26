@@ -1,6 +1,6 @@
 ## QtNotes
 
-A notes app with simple formatting, written in Qt (QML)/C++.
+A notes app that aims to be simple, written in Qt (QML)/C++.
 
 Features include:
 * Making notes (auto-saved while typing)
