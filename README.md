@@ -78,3 +78,17 @@ sudo apt install ../qtnotes_*.deb
 ```
 
 The package is written to the folder above the repository. To release a new version, add an entry to `debian/changelog` (e.g. with `dch -v 0.2.0` from the `devscripts` package) and change the version in `CMakeLists.txt` to match.
+
+### Windows installer
+
+The Windows installer is made with [NSIS](https://nsis.sourceforge.io) from what `cmake --install` installs: the app, the Qt libraries it needs and Microsoft's C++ runtime. It installs to `Program Files\QtNotes`, adds a Start menu shortcut and can be uninstalled from Settings > Apps. Installing a newer version replaces the old one.
+
+Install NSIS (e.g. `winget install NSIS.NSIS`), then, after building as above:
+
+```powershell
+cmake --build --preset release --target package
+```
+
+The installer is written to `build/release`, e.g. `QtNotes-0.1.0-win64.exe`.
+
+GitHub Actions also builds it on every push to `main` (see `.github/workflows/windows.yml`); it can be downloaded from the run's page, under Artifacts.

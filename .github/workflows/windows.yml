@@ -1,0 +1,47 @@
+# Builds the Windows installer on every push and pull request, and when run by
+# hand from the Actions tab. The installer can be downloaded from the run's
+# page, under Artifacts.
+name: Windows
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  installer:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Puts Microsoft's compiler, and the CMake and Ninja that come with
+      # Visual Studio, on the PATH.
+      - uses: ilammy/msvc-dev-cmd@v1
+
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v4
+        with:
+          version: '6.10.*'
+          arch: win64_msvc2022_64
+          cache: true
+
+      - name: Install NSIS
+        run: choco install nsis --yes --no-progress
+
+      - name: Configure
+        run: cmake --preset release -DCMAKE_PREFIX_PATH="$env:QT_ROOT_DIR"
+
+      - name: Build
+        run: cmake --build --preset release
+
+      # Through CMake rather than running cpack, which on GitHub's Windows
+      # machines can be Chocolatey's command of the same name.
+      - name: Make the installer
+        run: cmake --build --preset release --target package
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: QtNotes-windows-installer
+          path: build/release/QtNotes-*-win64.exe
+          if-no-files-found: error
