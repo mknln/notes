@@ -58,9 +58,17 @@ On Windows and macOS, this also copies the Qt libraries the app needs, so the in
 
 ### Debian and Ubuntu package
 
-The `debian` folder builds a `.deb` package that uses the system's Qt. That needs Qt 6.8 or later, so it works on Debian 13 (trixie) and Ubuntu 25.04 or later, but not on Debian 12 or Ubuntu 24.04.
+The `debian` folder builds a `.deb` package that uses the system's Qt. That needs Qt 6.8 or later, so it works on Debian 13 (trixie) and Ubuntu 25.04 or later, but not on Debian 12 or Ubuntu 24.04. It has been tested on Debian 13, Ubuntu 26.04 and Ubuntu 26.10.
 
-From the repository's folder:
+A package only installs on the release it was built for. With Docker, you can build it for any release from any machine:
+
+```sh
+linux/build-deb.sh ubuntu:26.04    # or debian:trixie, ubuntu:26.10, ...
+```
+
+The package is written to `build/deb/<release>/`, e.g. `build/deb/ubuntu-26.04/`.
+
+To build it on the release itself instead, from the repository's folder:
 
 ```sh
 sudo apt install dpkg-dev
